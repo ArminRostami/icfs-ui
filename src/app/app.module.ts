@@ -18,6 +18,9 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { IconDefinition } from '@ant-design/icons-angular';
 import { UserOutline, LockOutline } from '@ant-design/icons-angular/icons';
 
@@ -51,6 +54,9 @@ const icons: IconDefinition[] = [UserOutline, LockOutline,];
     NzInputModule,
     ReactiveFormsModule,
     NzButtonModule,
+    NzCardModule,
+    NzTabsModule,
+    NzSpaceModule,
     NzIconModule.forRoot(icons)
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],

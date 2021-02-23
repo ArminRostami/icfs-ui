@@ -8,6 +8,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class LoginComponent implements OnInit {
   validateForm!: FormGroup;
+  tabIndex = 0
 
   submitForm(): void {
     for (const i in this.validateForm.controls) {
