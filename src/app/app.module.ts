@@ -21,11 +21,13 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { NzResultModule } from 'ng-zorro-antd/result';
 
 // component modules
 import { FilesComponent } from './components/files/files.component';
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
+import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 
 registerLocaleData(en);
 
@@ -35,7 +37,8 @@ registerLocaleData(en);
     AppComponent,
     FilesComponent,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,
@@ -54,6 +57,7 @@ registerLocaleData(en);
     NzCardModule,
     NzTabsModule,
     NzSpaceModule,
+    NzResultModule,
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent]
