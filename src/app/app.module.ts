@@ -26,7 +26,7 @@ import { NzResultModule } from 'ng-zorro-antd/result';
 // component modules
 import { FilesComponent } from './components/files/files.component';
 import { LoginComponent } from './components/login/login.component';
-import { HomeComponent } from './components/home/home.component';
+import { LayoutComponent } from './components/layout/layout.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 
 registerLocaleData(en);
@@ -37,7 +37,7 @@ registerLocaleData(en);
     AppComponent,
     FilesComponent,
     LoginComponent,
-    HomeComponent,
+    LayoutComponent,
     PageNotFoundComponent
   ],
   imports: [
