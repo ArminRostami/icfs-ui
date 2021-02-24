@@ -2,50 +2,29 @@
   <div nz-row [nzGutter]="8">
     <!-- Explore card -->
     <div nz-col [nzSpan]="8">
-      <nz-card style="width:300px;" [nzCover]="coverTemplate" [nzActions]="[actionSetting, actionEdit, actionEllipsis]">
-        <nz-card-meta nzTitle="Card title" nzDescription="This is the description" [nzAvatar]="avatarTemplate">
+      <nz-card style="width:300px;">
+        <nz-card-meta nzTitle="Explore" nzDescription="Explore the files uploaded by the comunity."
+          [nzAvatar]="avatarTemplate">
         </nz-card-meta>
       </nz-card>
       <ng-template #avatarTemplate>
-        <nz-avatar nzSrc="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"></nz-avatar>
-      </ng-template>
-      <ng-template #coverTemplate>
-        <img alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />
-      </ng-template>
-      <ng-template #actionSetting>
-        <i nz-icon nzType="setting"></i>
-      </ng-template>
-      <ng-template #actionEdit>
-        <i nz-icon nzType="edit"></i>
-      </ng-template>
-      <ng-template #actionEllipsis>
-        <i nz-icon nzType="ellipsis"></i>
+        <i nz-icon nzType="appstore" nzTheme="twotone" style="font-size: 24px;" nzTwotoneColor="#52c41a"></i>
       </ng-template>
     </div>
+
     <!-- Upload card -->
     <div nz-col [nzSpan]="8">
       <app-upload></app-upload>
     </div>
+
     <!-- myFiles card -->
     <div nz-col [nzSpan]="8">
-      <nz-card style="width:300px;" [nzCover]="coverTemplate" [nzActions]="[actionSetting, actionEdit, actionEllipsis]">
-        <nz-card-meta nzTitle="Card title" nzDescription="This is the description" [nzAvatar]="avatarTemplate">
+      <nz-card style="width:300px;">
+        <nz-card-meta nzTitle="My Files" nzDescription="Review and modify your files." [nzAvatar]="avatarTemplate2">
         </nz-card-meta>
       </nz-card>
-      <ng-template #avatarTemplate>
-        <nz-avatar nzSrc="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"></nz-avatar>
-      </ng-template>
-      <ng-template #coverTemplate>
-        <img alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />
-      </ng-template>
-      <ng-template #actionSetting>
-        <i nz-icon nzType="setting"></i>
-      </ng-template>
-      <ng-template #actionEdit>
-        <i nz-icon nzType="edit"></i>
-      </ng-template>
-      <ng-template #actionEllipsis>
-        <i nz-icon nzType="ellipsis"></i>
+      <ng-template #avatarTemplate2>
+        <i nz-icon nzType="folder-open" nzTheme="twotone" style="font-size: 24px;" nzTwotoneColor="#eb2f96"></i>
       </ng-template>
     </div>
   </div>

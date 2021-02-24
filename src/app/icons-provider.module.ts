@@ -8,10 +8,25 @@ import {
   DashboardOutline,
   UserOutline,
   LockOutline,
-  InboxOutline
+  InboxOutline,
+  UploadOutline,
+  FileAddTwoTone,
+  AppstoreTwoTone,
+  FolderOpenTwoTone
 } from '@ant-design/icons-angular/icons';
 
-const icons = [MenuFoldOutline, MenuUnfoldOutline, DashboardOutline, FormOutline, UserOutline, LockOutline, InboxOutline];
+const icons = [
+  MenuFoldOutline,
+  MenuUnfoldOutline,
+  DashboardOutline,
+  FormOutline, UserOutline,
+  LockOutline,
+  InboxOutline,
+  UploadOutline,
+  FileAddTwoTone,
+  AppstoreTwoTone,
+  FolderOpenTwoTone
+];
 
 @NgModule({
   imports: [NzIconModule],

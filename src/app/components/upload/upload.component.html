@@ -1,8 +1,10 @@
 <nz-card style="width:300px;">
-  <nz-card-meta nzTitle="Upload"
+  <nz-card-meta nzTitle="Upload" [nzAvatar]="avatarTemplate"
     nzDescription="Upload files to gain credit. You also gain bonus credit for every download on your files.">
   </nz-card-meta>
+
   <nz-divider></nz-divider>
+
   <nz-upload nzType="drag" [nzMultiple]="false" nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
     (nzChange)="handleChange($event)">
     <p class="ant-upload-drag-icon">
@@ -11,3 +13,7 @@
     <p class="ant-upload-text">Click or drag file to this area to upload</p>
   </nz-upload>
 </nz-card>
+
+<ng-template #avatarTemplate>
+  <i nz-icon nzType="file-add" nzTheme="twotone" style="font-size: 24px;"></i>
+</ng-template>
