@@ -22,12 +22,18 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzResultModule } from 'ng-zorro-antd/result';
+import { NzAvatarModule } from 'ng-zorro-antd/avatar';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
+import { NzMessageModule } from 'ng-zorro-antd/message';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
 
 // component modules
 import { FilesComponent } from './components/files/files.component';
 import { LoginComponent } from './components/login/login.component';
 import { LayoutComponent } from './components/layout/layout.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
+import { HomeComponent } from './components/home/home.component';
+import { UploadComponent } from './components/upload/upload.component';
 
 registerLocaleData(en);
 
@@ -38,7 +44,9 @@ registerLocaleData(en);
     FilesComponent,
     LoginComponent,
     LayoutComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    HomeComponent,
+    UploadComponent
   ],
   imports: [
     BrowserModule,
@@ -58,6 +66,10 @@ registerLocaleData(en);
     NzTabsModule,
     NzSpaceModule,
     NzResultModule,
+    NzAvatarModule,
+    NzUploadModule,
+    NzMessageModule,
+    NzDividerModule
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent]
