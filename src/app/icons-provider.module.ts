@@ -12,7 +12,10 @@ import {
   UploadOutline,
   FileAddTwoTone,
   AppstoreTwoTone,
-  FolderOpenTwoTone
+  FolderOpenTwoTone,
+  StarTwoTone,
+  DownSquareTwoTone,
+  DownloadOutline
 } from '@ant-design/icons-angular/icons';
 
 const icons = [
@@ -25,7 +28,10 @@ const icons = [
   UploadOutline,
   FileAddTwoTone,
   AppstoreTwoTone,
-  FolderOpenTwoTone
+  FolderOpenTwoTone,
+  StarTwoTone,
+  DownSquareTwoTone,
+  DownloadOutline
 ];
 
 @NgModule({

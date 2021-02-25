@@ -55,5 +55,11 @@ export const tableColumns: ColumnItem[] = [
     sortFn: (a: Content, b: Content) => a.downloads - b.downloads,
     sortDirections: ['ascend', 'descend', null],
   },
+  {
+    name: "Actions",
+    sortOrder: null,
+    sortFn: null,
+    sortDirections: [null]
+  }
 
 ];

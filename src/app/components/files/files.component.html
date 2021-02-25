@@ -13,9 +13,16 @@
       <td>{{ data.name }}</td>
       <td>{{ data.uploader }}</td>
       <td>{{ data.upload_date.toLocaleDateString()}}</td>
-      <td>{{ data.size }}</td>
-      <td>{{ data.rating }}</td>
-      <td>{{ data.downloads }}</td>
+      <td>{{ data.size }} MB</td>
+      <td>{{ data.rating }}
+        <i nz-icon nzType="star" nzTheme="twotone" nzTwotoneColor="#FFD700"></i>
+      </td>
+      <td>{{ data.downloads }}
+        <i nz-icon nzType="down-square" nzTheme="twotone" nzTwotoneColor="#32CD32"></i>
+      </td>
+      <td>
+        <i nz-icon nzType="download" nzTheme="outline" style="font-size: 18px;"></i>
+      </td>
     </tr>
   </tbody>
 </nz-table>
