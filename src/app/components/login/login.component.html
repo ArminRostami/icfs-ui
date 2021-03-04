@@ -30,7 +30,9 @@
           </div>
           <button nz-button class="login-form-button login-form-margin" [nzType]="'primary'">Log in</button>
         </form>
-        <form *ngIf="tabIndex==1" nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
+        <!-- TODO: implement register form -->
+        <!-- Register form -->
+        <!-- <form *ngIf="tabIndex==1" nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
           <nz-form-item>
             <nz-form-control nzErrorTip="Please input your username!">
               <nz-input-group nzPrefixIcon="user">
@@ -46,7 +48,7 @@
             </nz-form-control>
           </nz-form-item>
           <button nz-button class="login-form-button login-form-margin" [nzType]="'primary'">Register</button>
-        </form>
+        </form> -->
       </nz-card>
     </div>
   </div>
