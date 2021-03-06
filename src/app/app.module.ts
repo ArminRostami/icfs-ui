@@ -34,7 +34,6 @@ import { LayoutComponent } from './components/layout/layout.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { HomeComponent } from './components/home/home.component';
 import { UploadComponent } from './components/upload/upload.component';
-import { CookieService } from 'ngx-cookie-service';
 
 registerLocaleData(en);
 
@@ -72,7 +71,7 @@ registerLocaleData(en);
     NzMessageModule,
     NzDividerModule
   ],
-  providers: [{ provide: NZ_I18N, useValue: en_US }, CookieService],
+  providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

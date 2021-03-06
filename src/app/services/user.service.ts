@@ -1,8 +1,9 @@
+import { Observable } from 'rxjs';
 import { API } from './api';
-import { CookieService } from 'ngx-cookie-service';
 import { user } from './../types/user';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { tap } from 'rxjs/operators';
 
 const JWT = "jwt"
 
@@ -13,22 +14,26 @@ export class UserService {
   private _activeUser!: user;
 
   constructor(
-    private cookieService: CookieService,
-    private httpClient: HttpClient
+    private http: HttpClient
   ) { }
 
-  fetchUser() {
-    if (this.activeUser == null) {
-      return this.httpClient.get<user>(API.users)
-    }
-    return
+  userExists(): boolean {
+    return this.activeUser != undefined
   }
 
-  login(user: string, pass: string) {
-    return this.httpClient.post<string>(API.login, { username: user, password: pass })
+  fetchUser(): Observable<user> {
+    return this.http.get<user>(API.users, { withCredentials: true })
   }
 
-  get activeUser() {
+  login(user: string, pass: string): Observable<HttpResponse<user>> {
+    return this.http.post<user>(
+      API.login,
+      { username: user, password: pass },
+      { observe: 'response', withCredentials: true })
+      .pipe(tap(userResp => console.log("headers:", userResp.headers)))
+  }
+
+  get activeUser(): user {
     return this._activeUser
   }
 

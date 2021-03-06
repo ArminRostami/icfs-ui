@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { UserService } from './../../services/user.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -11,9 +12,27 @@ export class LoginComponent implements OnInit {
   validateForm!: FormGroup;
   tabIndex = 0
 
-  constructor(private fb: FormBuilder, private userService: UserService) { }
+  constructor(
+    private fb: FormBuilder,
+    private userService: UserService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
+
+    if (this.userService.userExists()) {
+      this.router.navigateByUrl("home")
+      return
+    }
+
+    this.userService.fetchUser().subscribe(u => {
+      this.userService.activeUser = u
+      this.router.navigateByUrl("home")
+    })
+    this.setValidators()
+  }
+
+  setValidators() {
     this.validateForm = this.fb.group({
       userName: [null, [Validators.required]],
       password: [null, [Validators.required]],
@@ -33,7 +52,12 @@ export class LoginComponent implements OnInit {
     if (username.valid && password.valid) {
       console.log(username.value)
       console.log(password.value)
-      this.userService.login(username.value, password.value).subscribe(str => console.log(str))
+      this.userService.login(username.value, password.value).subscribe(userResp => {
+        if (userResp.body != null) {
+          this.userService.activeUser = userResp.body
+          this.router.navigateByUrl("home")
+        }
+      })
     }
   }
 }
