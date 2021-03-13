@@ -13,7 +13,13 @@
         <i nz-icon nzType={{getIcon(data)?.name}} nzTwotoneColor={{getIcon(data)?.color}} nzTheme="twotone"
           style="font-size: 24px;"></i>
       </td>
-      <td>{{ data.name + "." + data.extension }}</td>
+      <td nz-tooltip [nzTooltipTitle]="descTemplate">
+        {{ data.name + "." + data.extension }}
+      </td>
+      <ng-template #descTemplate>
+        <i nz-icon nzType="info-circle"></i>
+        <span>{{" "+data.description}}</span>
+      </ng-template>
       <td>{{ data.uploader }}</td>
       <td>{{ data.uploaded_at.toLocaleDateString()}}</td>
       <td>{{ data.size }} MB</td>

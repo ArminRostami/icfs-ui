@@ -26,6 +26,7 @@ import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzMessageModule } from 'ng-zorro-antd/message';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
 // component modules
 import { FilesComponent } from './components/files/files.component';
@@ -69,7 +70,8 @@ registerLocaleData(en);
     NzAvatarModule,
     NzUploadModule,
     NzMessageModule,
-    NzDividerModule
+    NzDividerModule,
+    NzToolTipModule
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent]

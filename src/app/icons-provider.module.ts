@@ -27,7 +27,8 @@ import {
   FileWordTwoTone,
   FileTextTwoTone,
   BookTwoTone,
-  ContainerTwoTone
+  ContainerTwoTone,
+  InfoCircleOutline
 } from '@ant-design/icons-angular/icons';
 
 const icons = [
@@ -56,7 +57,9 @@ const icons = [
   FileWordTwoTone,
   FileTextTwoTone,
   BookTwoTone,
-  ContainerTwoTone
+  ContainerTwoTone,
+  InfoCircleOutline
+
 
 
 ];
