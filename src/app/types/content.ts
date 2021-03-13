@@ -1,9 +1,10 @@
 export interface Content {
   name: string;
+  extension: string;
   rating: number;
-  upload_date: Date;
+  uploaded_at: Date;
   downloads: number;
   uploader: string;
   size: number;
-  category: string;
+  file_type: string;
 }

@@ -16,7 +16,7 @@ export const tableColumns: ColumnItem[] = [
   {
     name: 'Category',
     sortOrder: null,
-    sortFn: (a: Content, b: Content) => a.category.localeCompare(b.category),
+    sortFn: (a: Content, b: Content) => a.file_type.localeCompare(b.file_type),
     sortDirections: ['ascend', 'descend', null],
   },
   {
@@ -34,7 +34,7 @@ export const tableColumns: ColumnItem[] = [
   {
     name: 'Date',
     sortOrder: 'descend',
-    sortFn: (a: Content, b: Content) => a.upload_date.getTime() - b.upload_date.getTime(),
+    sortFn: (a: Content, b: Content) => a.uploaded_at.getTime() - b.uploaded_at.getTime(),
     sortDirections: ['ascend', 'descend', null],
   },
   {

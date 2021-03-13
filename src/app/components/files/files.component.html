@@ -9,10 +9,13 @@
   </thead>
   <tbody>
     <tr *ngFor="let data of filterTable.data">
-      <td>{{ data.category}}</td>
-      <td>{{ data.name }}</td>
+      <td>
+        <i nz-icon nzType={{getIcon(data)?.name}} nzTwotoneColor={{getIcon(data)?.color}} nzTheme="twotone"
+          style="font-size: 24px;"></i>
+      </td>
+      <td>{{ data.name + "." + data.extension }}</td>
       <td>{{ data.uploader }}</td>
-      <td>{{ data.upload_date.toLocaleDateString()}}</td>
+      <td>{{ data.uploaded_at.toLocaleDateString()}}</td>
       <td>{{ data.size }} MB</td>
       <td>{{ data.rating }}
         <i nz-icon nzType="star" nzTheme="twotone" nzTwotoneColor="#FFD700"></i>

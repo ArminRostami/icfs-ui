@@ -15,7 +15,19 @@ import {
   FolderOpenTwoTone,
   StarTwoTone,
   DownSquareTwoTone,
-  DownloadOutline
+  DownloadOutline,
+  AudioTwoTone,
+  VideoCameraTwoTone,
+  FilePdfTwoTone,
+  FileUnknownTwoTone,
+  FileImageTwoTone,
+  FileZipTwoTone,
+  FilePptTwoTone,
+  FileExcelTwoTone,
+  FileWordTwoTone,
+  FileTextTwoTone,
+  BookTwoTone,
+  ContainerTwoTone
 } from '@ant-design/icons-angular/icons';
 
 const icons = [
@@ -31,7 +43,22 @@ const icons = [
   FolderOpenTwoTone,
   StarTwoTone,
   DownSquareTwoTone,
-  DownloadOutline
+  DownloadOutline,
+  // file type icons
+  AudioTwoTone,
+  VideoCameraTwoTone,
+  FilePdfTwoTone,
+  FileUnknownTwoTone,
+  FileImageTwoTone,
+  FileZipTwoTone,
+  FilePptTwoTone,
+  FileExcelTwoTone,
+  FileWordTwoTone,
+  FileTextTwoTone,
+  BookTwoTone,
+  ContainerTwoTone
+
+
 ];
 
 @NgModule({

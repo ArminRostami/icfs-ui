@@ -1,8 +1,9 @@
+import { iconmap } from './icons';
 import { tableColumns } from './columns';
 import { Content } from './../../types/content';
 import { FileService } from './../../services/file.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators'
 
 
@@ -20,7 +21,7 @@ export class FilesComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.fileService.getFiles()
       .pipe(takeUntil(this.unsub$))
-      .subscribe(contents => this.listOfData = contents)
+      .subscribe(contents => { this.listOfData = contents, console.log(contents) })
   }
 
   ngOnDestroy() {
@@ -28,7 +29,13 @@ export class FilesComponent implements OnInit, OnDestroy {
     this.unsub$.complete()
   }
 
-  getAllFiles(): Observable<Content[]> {
-    return this.fileService.getFiles()
+  getIcon(data: Content) {
+    if (iconmap.has(data.extension)) {
+      return iconmap.get(data.extension)
+    }
+    if (iconmap.has(data.file_type)) {
+      return iconmap.get(data.file_type)
+    }
+    return iconmap.get("unknown")
   }
 }
