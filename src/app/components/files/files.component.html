@@ -1,37 +1,65 @@
-<nz-table #filterTable [nzData]="listOfData" nzTableLayout="fixed">
+<!-- TODO: remove ngfor for custom filter impl -> see ajax table on ng zorro -->
+<nz-table #filesTable [nzData]="listOfData" [nzPageSize]="pageSize" nzTableLayout="fixed" nzLoading={{loading}}>
   <thead>
     <tr>
-      <th *ngFor="let column of listOfColumns" [nzSortOrder]="column.sortOrder" [nzSortFn]="column.sortFn"
-        [nzSortDirections]="column.sortDirections">
-        {{ column.name }}
+      <th nzWidth="40px"></th>
+      <th [nzSortOrder]="c.type.sortOrder" [nzSortFn]="c.type.sortFn" [nzSortDirections]="c.type.sortDirections"
+        [nzFilterMultiple]="c.type.filterMultiple!" [nzFilters]="c.type.listOfFilter!" [nzFilterFn]="c.type.filterFn!">
+        {{ c.type.name }}
+      </th>
+      <th colspan="2" [nzSortOrder]="c.name.sortOrder" [nzSortFn]="c.name.sortFn"
+        [nzSortDirections]="c.name.sortDirections">
+        {{ c.name.name }}
+      </th>
+      <th [nzSortOrder]="c.date.sortOrder" [nzSortFn]="c.date.sortFn" [nzSortDirections]="c.date.sortDirections">
+        {{ c.date.name }}
+      </th>
+      <th [nzSortOrder]="c.size.sortOrder" [nzSortFn]="c.size.sortFn" [nzSortDirections]="c.size.sortDirections">
+        {{ c.size.name }}
+      </th>
+      <th [nzSortOrder]="c.rate.sortOrder" [nzSortFn]="c.rate.sortFn" [nzSortDirections]="c.rate.sortDirections">
+        {{ c.rate.name }}
+      </th>
+      <th [nzSortOrder]="c.downloads.sortOrder" [nzSortFn]="c.downloads.sortFn"
+        [nzSortDirections]="c.downloads.sortDirections">
+        {{ c.downloads.name }}
+      </th>
+      <th nzAlign="center">
+        {{ c.actions.name }}
       </th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let data of filterTable.data">
-      <td>
-        <i nz-icon nzType={{getIcon(data)?.name}} nzTwotoneColor={{getIcon(data)?.color}} nzTheme="twotone"
-          style="font-size: 24px;"></i>
-      </td>
-      <td nz-tooltip [nzTooltipTitle]="descTemplate">
-        {{ data.name + "." + data.extension }}
-      </td>
-      <ng-template #descTemplate>
-        <i nz-icon nzType="info-circle"></i>
-        <span>{{" "+data.description}}</span>
-      </ng-template>
-      <td>{{ data.uploader }}</td>
-      <td>{{ data.uploaded_at.toLocaleDateString()}}</td>
-      <td>{{ data.size }} MB</td>
-      <td>{{ data.rating }}
-        <i nz-icon nzType="star" nzTheme="twotone" nzTwotoneColor="#FFD700"></i>
-      </td>
-      <td>{{ data.downloads }}
-        <i nz-icon nzType="down-square" nzTheme="twotone" nzTwotoneColor="#32CD32"></i>
-      </td>
-      <td>
-        <i nz-icon nzType="download" nzTheme="outline" style="font-size: 18px;"></i>
-      </td>
-    </tr>
+    <ng-container *ngFor="let data of filesTable.data">
+      <tr>
+        <td [nzExpand]="expandSet.has(data.id)" (nzExpandChange)="onExpandChange(data.id, $event)"></td>
+        <td nzAlign="center">
+          <i nz-icon nzType={{getIcon(data)?.name}} nzTwotoneColor={{getIcon(data)?.color}} nzTheme="twotone"
+            style="font-size: 24px;"></i>
+        </td>
+        <td colspan="2" nz-tooltip [nzTooltipTitle]="descTemplate">
+          {{ data.name + "." + data.extension }}
+        </td>
+        <ng-template #descTemplate>
+          <i nz-icon nzType="info-circle"></i>
+          <span>{{" "+data.description}}</span>
+        </ng-template>
+        <!-- <td>{{ data.uploader }}</td> -->
+        <td>{{ data.uploaded_at.toLocaleDateString()}}</td>
+        <td>{{ data.size }} MB</td>
+        <td nzAlign="center">{{ data.rating }}
+          <i nz-icon nzType="star" nzTheme="twotone" nzTwotoneColor="#FFD700"></i>
+        </td>
+        <td nzAlign="center">{{ data.downloads }}
+          <i nz-icon nzType="down-square" nzTheme="twotone" nzTwotoneColor="#32CD32"></i>
+        </td>
+        <td nzAlign="center">
+          <i nz-icon nzType="download" nzTheme="outline" style="font-size: 18px;"></i>
+        </td>
+      </tr>
+      <tr [nzExpand]="expandSet.has(data.id)">
+        <span>{{ data.description }}</span>
+      </tr>
+    </ng-container>
   </tbody>
 </nz-table>

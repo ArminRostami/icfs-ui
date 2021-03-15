@@ -14,14 +14,21 @@ import { takeUntil } from 'rxjs/operators'
 export class FilesComponent implements OnInit, OnDestroy {
   constructor(private fileService: FileService) { }
 
+  pageSize = 6
+  expandSet = new Set<string>();
+  loading = true
   unsub$ = new Subject();
   listOfData: Content[] = [];
-  listOfColumns = tableColumns
+  c = tableColumns
 
   ngOnInit() {
     this.fileService.getFiles()
       .pipe(takeUntil(this.unsub$))
-      .subscribe(contents => { this.listOfData = contents, console.log(contents) })
+      .subscribe(contents => {
+        this.listOfData = contents
+        console.log(contents)
+        this.loading = false
+      })
   }
 
   ngOnDestroy() {
@@ -37,5 +44,13 @@ export class FilesComponent implements OnInit, OnDestroy {
       return iconmap.get(data.file_type)
     }
     return iconmap.get("unknown")
+  }
+
+  onExpandChange(id: string, checked: boolean): void {
+    if (checked) {
+      this.expandSet.add(id);
+    } else {
+      this.expandSet.delete(id);
+    }
   }
 }
