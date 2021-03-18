@@ -1,29 +1,49 @@
-<!-- TODO: remove ngfor for custom filter impl -> see ajax table on ng zorro -->
-<nz-table #filesTable [nzData]="listOfData" [nzPageSize]="pageSize" nzTableLayout="fixed" nzLoading={{loading}}>
+<nz-table #filesTable [nzData]="displayData" [nzPageSize]="pageSize" nzTableLayout="fixed" nzLoading={{loading}}>
   <thead>
     <tr>
       <th nzWidth="40px"></th>
+      <!-- TYPE -->
       <th [nzSortOrder]="c.type.sortOrder" [nzSortFn]="c.type.sortFn" [nzSortDirections]="c.type.sortDirections"
         [nzFilterMultiple]="c.type.filterMultiple!" [nzFilters]="c.type.listOfFilter!" [nzFilterFn]="c.type.filterFn!">
         {{ c.type.name }}
       </th>
+      <!-- NAME -->
       <th colspan="2" [nzSortOrder]="c.name.sortOrder" [nzSortFn]="c.name.sortFn"
         [nzSortDirections]="c.name.sortDirections">
         {{ c.name.name }}
       </th>
+      <!-- DATE -->
       <th [nzSortOrder]="c.date.sortOrder" [nzSortFn]="c.date.sortFn" [nzSortDirections]="c.date.sortDirections">
         {{ c.date.name }}
       </th>
-      <th [nzSortOrder]="c.size.sortOrder" [nzSortFn]="c.size.sortFn" [nzSortDirections]="c.size.sortDirections">
+      <!-- SIZE -->
+      <th nzCustomFilter [nzSortOrder]="c.size.sortOrder" [nzSortFn]="c.size.sortFn"
+        [nzSortDirections]="c.size.sortDirections">
         {{ c.size.name }}
+        <nz-filter-trigger [(nzVisible)]="sizeFilterVisible" [nzActive]="NotInfinite(ltSize)||NotInfinite(gtSize)"
+          [nzDropdownMenu]="menuSize">
+          <i nz-icon nzType="filter" nzTheme="fill"></i>
+        </nz-filter-trigger>
       </th>
-      <th [nzSortOrder]="c.rate.sortOrder" [nzSortFn]="c.rate.sortFn" [nzSortDirections]="c.rate.sortDirections">
+      <!-- RATE -->
+      <th nzCustomFilter [nzSortOrder]="c.rate.sortOrder" [nzSortFn]="c.rate.sortFn"
+        [nzSortDirections]="c.rate.sortDirections">
         {{ c.rate.name }}
+        <nz-filter-trigger [(nzVisible)]="rateFilterVisible" [nzActive]="ltRate<5||gtRate>0"
+          [nzDropdownMenu]="menuRate">
+          <i nz-icon nzType="filter" nzTheme="fill"></i>
+        </nz-filter-trigger>
       </th>
-      <th [nzSortOrder]="c.downloads.sortOrder" [nzSortFn]="c.downloads.sortFn"
+      <!-- DOWNLOADS -->
+      <th nzCustomFilter [nzSortOrder]="c.downloads.sortOrder" [nzSortFn]="c.downloads.sortFn"
         [nzSortDirections]="c.downloads.sortDirections">
         {{ c.downloads.name }}
+        <nz-filter-trigger [(nzVisible)]="dlsFilterVisible" [nzActive]="NotInfinite(ltDls)||gtDls>0"
+          [nzDropdownMenu]="menuDls">
+          <i nz-icon nzType="filter" nzTheme="fill"></i>
+        </nz-filter-trigger>
       </th>
+      <!-- ACTIONS -->
       <th nzAlign="center">
         {{ c.actions.name }}
       </th>
@@ -63,3 +83,43 @@
     </ng-container>
   </tbody>
 </nz-table>
+
+
+<nz-dropdown-menu #menuSize>
+  <div class="ant-table-filter-dropdown">
+    <div class="filter-box">
+      <input type="number" nz-input placeholder="Greater than" [(ngModel)]="gtSize" />
+      <input type="number" nz-input placeholder="Less than" [(ngModel)]="ltSize" />
+      <button nz-button nzSize="small" nzType="primary" (click)="filterSize()" class="filter-button">
+        Filter
+      </button>
+      <button nz-button nzSize="small" (click)="reset()">Reset</button>
+    </div>
+  </div>
+</nz-dropdown-menu>
+
+<nz-dropdown-menu #menuRate>
+  <div class="ant-table-filter-dropdown">
+    <div class="filter-box">
+      <input type="number" nz-input placeholder="Greater than" [(ngModel)]="gtRate" />
+      <input type="number" nz-input placeholder="Less than" [(ngModel)]="ltRate" />
+      <button nz-button nzSize="small" nzType="primary" (click)="filterRate()" class="filter-button">
+        Filter
+      </button>
+      <button nz-button nzSize="small" (click)="reset()">Reset</button>
+    </div>
+  </div>
+</nz-dropdown-menu>
+
+<nz-dropdown-menu #menuDls>
+  <div class="ant-table-filter-dropdown">
+    <div class="filter-box">
+      <input type="number" nz-input placeholder="Greater than" [(ngModel)]="gtDls" />
+      <input type="number" nz-input placeholder="Less than" [(ngModel)]="ltDls" />
+      <button nz-button nzSize="small" nzType="primary" (click)="filterDls()" class="filter-button">
+        Filter
+      </button>
+      <button nz-button nzSize="small" (click)="reset()">Reset</button>
+    </div>
+  </div>
+</nz-dropdown-menu>

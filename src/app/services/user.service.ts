@@ -23,6 +23,7 @@ export class UserService {
 
   fetchUser(): Observable<user> {
     return this.http.get<user>(API.users, { withCredentials: true })
+      .pipe(tap(u => this._activeUser = u))
   }
 
   login(user: string, pass: string): Observable<HttpResponse<user>> {
@@ -30,14 +31,14 @@ export class UserService {
       API.login,
       { username: user, password: pass },
       { observe: 'response', withCredentials: true })
-      .pipe(tap(userResp => console.log("headers:", userResp.headers)))
+      .pipe(tap(resp => {
+        if (resp.body != null && resp.ok)
+          this._activeUser = resp.body
+      }))
   }
 
   get activeUser(): user {
     return this._activeUser
   }
 
-  set activeUser(u: user) {
-    this._activeUser = u
-  }
 }

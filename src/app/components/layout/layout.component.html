@@ -5,7 +5,10 @@
       <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo">
       <h1>ICFS</h1>
     </div>
+
     <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+      <li nz-submenu nzIcon="user" nzTitle={{user.username}}></li>
+
       <li nz-submenu nzOpen nzTitle="Dashboard" nzIcon="dashboard">
         <ul>
           <li nz-menu-item nzMatchRouter="true">

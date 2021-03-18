@@ -26,7 +26,6 @@ export class LoginComponent implements OnInit {
     }
 
     this.userService.fetchUser().subscribe(u => {
-      this.userService.activeUser = u
       this.router.navigateByUrl("home")
     })
     this.setValidators()
@@ -53,8 +52,7 @@ export class LoginComponent implements OnInit {
       console.log(username.value)
       console.log(password.value)
       this.userService.login(username.value, password.value).subscribe(userResp => {
-        if (userResp.body != null) {
-          this.userService.activeUser = userResp.body
+        if (userResp.body != null && userResp.ok) {
           this.router.navigateByUrl("home")
         }
       })

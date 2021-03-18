@@ -1,3 +1,5 @@
+import { user } from './../../types/user';
+import { UserService } from './../../services/user.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,10 +9,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LayoutComponent implements OnInit {
   isCollapsed = false;
+  user!: user
 
-  constructor() { }
+  constructor(private userService: UserService) { }
 
   ngOnInit(): void {
+    if (this.user != undefined)
+      return
+
+    if (this.userService.userExists()) {
+      this.user = this.userService.activeUser
+      return
+    }
+
+    this.userService.fetchUser().subscribe(u => {
+      this.user = u
+      console.log("user", this.user);
+    })
   }
 
 }

@@ -27,6 +27,7 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzMessageModule } from 'ng-zorro-antd/message';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 
 // component modules
 import { FilesComponent } from './components/files/files.component';
@@ -71,7 +72,8 @@ registerLocaleData(en);
     NzUploadModule,
     NzMessageModule,
     NzDividerModule,
-    NzToolTipModule
+    NzToolTipModule,
+    NzDropDownModule
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent]
