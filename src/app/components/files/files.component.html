@@ -1,7 +1,7 @@
 <nz-table #filesTable [nzData]="displayData" [nzPageSize]="pageSize" nzTableLayout="fixed" nzLoading={{loading}}>
   <thead>
     <tr>
-      <th nzWidth="40px"></th>
+      <th nzWidth="35px"></th>
       <!-- TYPE -->
       <th [nzSortOrder]="c.type.sortOrder" [nzSortFn]="c.type.sortFn" [nzSortDirections]="c.type.sortDirections"
         [nzFilterMultiple]="c.type.filterMultiple!" [nzFilters]="c.type.listOfFilter!" [nzFilterFn]="c.type.filterFn!">
@@ -43,42 +43,41 @@
           <i nz-icon nzType="filter" nzTheme="fill"></i>
         </nz-filter-trigger>
       </th>
-      <!-- ACTIONS -->
-      <th nzAlign="center">
-        {{ c.actions.name }}
-      </th>
     </tr>
   </thead>
   <tbody>
     <ng-container *ngFor="let data of filesTable.data">
       <tr>
+        <!-- Description expand -->
         <td [nzExpand]="expandSet.has(data.id)" (nzExpandChange)="onExpandChange(data.id, $event)"></td>
+        <!-- TYPE -->
         <td nzAlign="center">
           <i nz-icon nzType={{getIcon(data)?.name}} nzTwotoneColor={{getIcon(data)?.color}} nzTheme="twotone"
             style="font-size: 24px;"></i>
         </td>
-        <td colspan="2" nz-tooltip [nzTooltipTitle]="descTemplate">
+        <!-- NAME -->
+        <td colspan="2" nz-tooltip>
           {{ data.name + "." + data.extension }}
         </td>
-        <ng-template #descTemplate>
-          <i nz-icon nzType="info-circle"></i>
-          <span>{{" "+data.description}}</span>
-        </ng-template>
-        <!-- <td>{{ data.uploader }}</td> -->
+        <!-- DATE -->
         <td>{{ data.uploaded_at.toLocaleDateString()}}</td>
+        <!-- SIZE -->
         <td>{{ data.size }} MB</td>
+        <!-- RATE -->
         <td nzAlign="center">{{ data.rating }}
           <i nz-icon nzType="star" nzTheme="twotone" nzTwotoneColor="#FFD700"></i>
         </td>
+        <!-- DOWNLOADS -->
         <td nzAlign="center">{{ data.downloads }}
           <i nz-icon nzType="down-square" nzTheme="twotone" nzTwotoneColor="#32CD32"></i>
         </td>
-        <td nzAlign="center">
-          <i nz-icon nzType="download" nzTheme="outline" style="font-size: 18px;"></i>
-        </td>
       </tr>
+      <!-- Description row -->
       <tr [nzExpand]="expandSet.has(data.id)">
-        <span>{{ data.description }}</span>
+        <div nz-row nzJustify="space-between">
+          <span nz-col>{{ data.description }}</span>
+          <i nz-col nz-icon nzType="download" nzTheme="outline" style="font-size: 18px;"></i>
+        </div>
       </tr>
     </ng-container>
   </tbody>
