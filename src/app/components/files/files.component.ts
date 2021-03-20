@@ -5,6 +5,7 @@ import { FileService } from './../../services/file.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators'
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -14,7 +15,10 @@ import { takeUntil } from 'rxjs/operators'
 })
 
 export class FilesComponent implements OnInit, OnDestroy {
-  constructor(private fileService: FileService) { }
+  constructor(
+    private fileService: FileService,
+    private router: ActivatedRoute) { }
+
   dlsFilterVisible = false
   sizeFilterVisible = false
   rateFilterVisible = false
@@ -33,6 +37,17 @@ export class FilesComponent implements OnInit, OnDestroy {
   c = tableColumns
 
   ngOnInit() {
+    this.getFiles()
+    this.router.params.subscribe(params => this.setDefaultFilter(params['filter']))
+  }
+
+  setDefaultFilter(ftype: string) {
+    if (ftype === "") return
+    const item = this.c.type.listOfFilter!.find(item => item.text.toLowerCase() == ftype.toLowerCase())!
+    item.byDefault = true
+  }
+
+  getFiles() {
     this.fileService.getFiles()
       .pipe(takeUntil(this.unsub$))
       .subscribe(contents => {
@@ -44,6 +59,8 @@ export class FilesComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.reset()
+    this.resetTypeFilter()
     this.unsub$.next()
     this.unsub$.complete()
   }
@@ -92,5 +109,9 @@ export class FilesComponent implements OnInit, OnDestroy {
   }
   filterDls() {
     this.displayData = this.displayData.filter(content => content.downloads >= this.gtDls && content.downloads <= this.ltDls)
+  }
+
+  resetTypeFilter() {
+    this.c.type.listOfFilter?.forEach(filter => filter.byDefault = false)
   }
 }

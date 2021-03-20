@@ -12,6 +12,7 @@ const routes: Routes = [
     path: '', component: LayoutComponent, children: [
       { path: 'home', component: HomeComponent },
       { path: 'explore', component: FilesComponent },
+      { path: 'explore/:filter', component: FilesComponent },
     ]
   },
   { path: 'login', component: LoginComponent },
