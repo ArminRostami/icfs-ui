@@ -9,4 +9,12 @@ export interface Content {
   uploader: string;
   size: number;
   file_type: string;
+  comments: Comment[]
+}
+
+export interface Comment {
+  username: string;
+  rating: number;
+  comment_text: string;
+  comment_time: Date
 }

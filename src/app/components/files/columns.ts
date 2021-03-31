@@ -3,7 +3,7 @@ import { NzTableFilterFn, NzTableFilterList, NzTableSortFn, NzTableSortOrder } f
 import { Content } from 'src/app/types/content';
 
 
-interface Cols {
+export interface Cols {
   type: ColumnItem
   name: ColumnItem
   date: ColumnItem

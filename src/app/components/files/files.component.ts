@@ -1,11 +1,12 @@
 import { iconmap } from './icons';
-import { tableColumns } from './columns';
+import { Cols, tableColumns } from './columns';
 import { Content } from './../../types/content';
 import { FileService } from './../../services/file.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators'
 import { ActivatedRoute } from '@angular/router';
+import { formatDistance } from 'date-fns';
 
 
 @Component({
@@ -17,7 +18,7 @@ import { ActivatedRoute } from '@angular/router';
 export class FilesComponent implements OnInit, OnDestroy {
   constructor(
     private fileService: FileService,
-    private router: ActivatedRoute) { }
+    private router: ActivatedRoute) { this.c = tableColumns }
 
   dlsFilterVisible = false
   sizeFilterVisible = false
@@ -34,7 +35,7 @@ export class FilesComponent implements OnInit, OnDestroy {
   unsub$ = new Subject();
   listOfData: Content[] = [];
   displayData: Content[] = []
-  c = tableColumns
+  c: Cols
 
   ngOnInit() {
     this.getFiles()
@@ -42,8 +43,8 @@ export class FilesComponent implements OnInit, OnDestroy {
   }
 
   setDefaultFilter(ftype: string) {
-    if (ftype === "") return
-    const item = this.c.type.listOfFilter!.find(item => item.text.toLowerCase() == ftype.toLowerCase())!
+    if (ftype === undefined) return
+    const item = this.c.type.listOfFilter?.find(item => item.text.toLowerCase() == ftype.toLowerCase())!
     item.byDefault = true
   }
 
@@ -78,10 +79,27 @@ export class FilesComponent implements OnInit, OnDestroy {
   onExpandChange(id: string, checked: boolean): void {
     if (checked) {
       this.expandSet.add(id);
-    } else {
-      this.expandSet.delete(id);
+      this.logComments(id)
+      return
     }
+    this.expandSet.delete(id);
   }
+
+  logComments(content_id: string) {
+    this.fileService.getComments(content_id).subscribe(data => {
+      console.log(data)
+      const idx = this.listOfData.findIndex(content => content.id == content_id)
+      if (idx == -1) { return }
+      this.listOfData[idx].comments = data
+      console.log(this.listOfData);
+
+    })
+  }
+
+  getTime(time: Date): string {
+    return formatDistance(time, new Date())
+  }
+
 
   reset() {
     this.dlsFilterVisible = false

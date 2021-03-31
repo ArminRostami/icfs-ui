@@ -75,8 +75,27 @@
       <!-- Description row -->
       <tr [nzExpand]="expandSet.has(data.id)">
         <div nz-row nzJustify="space-between">
-          <span nz-col>{{ data.description }}</span>
+          <span nz-col style="font-weight: bold;">{{ data.description }}</span>
           <i nz-col nz-icon nzType="download" nzTheme="outline" style="font-size: 18px;"></i>
+        </div>
+
+        <div *ngFor="let comment of data.comments">
+          <nz-divider></nz-divider>
+          <div nz-row nzAlign="top">
+            <div nz-col>
+              <nz-comment [nzAuthor]="comment.username" [nzDatetime]="getTime(comment.comment_time)">
+                <nz-avatar nz-comment-avatar nzIcon="user"></nz-avatar>
+                <nz-comment-content>
+                  <p>{{ comment.comment_text }}</p>
+                </nz-comment-content>
+              </nz-comment>
+            </div>
+            <div nz-col style="padding: 8px;">
+              <nz-rate [ngModel]="comment.rating" nzDisabled></nz-rate>
+            </div>
+          </div>
+
+
         </div>
       </tr>
     </ng-container>
