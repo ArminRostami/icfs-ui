@@ -27,6 +27,7 @@ export class FileService {
   getComments(id: string): Observable<Comment[]> {
     return this.http.get<Comment[]>(API.getComments + `?id=${id}`).pipe(
       tap(comments => {
+        if (comments === null) return
         comments.forEach(comment => { comment["comment_time"] = new Date(comment["comment_time"]) })
       })
     )

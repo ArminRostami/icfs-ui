@@ -14,8 +14,6 @@ export class LayoutComponent implements OnInit {
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {
-    if (this.user != undefined)
-      return
 
     if (this.userService.userExists()) {
       this.user = this.userService.activeUser

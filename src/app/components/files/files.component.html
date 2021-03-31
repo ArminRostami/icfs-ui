@@ -46,40 +46,42 @@
     </tr>
   </thead>
   <tbody>
-    <ng-container *ngFor="let data of filesTable.data">
+    <ng-container *ngFor="let file of filesTable.data">
       <tr>
         <!-- Description expand -->
-        <td [nzExpand]="expandSet.has(data.id)" (nzExpandChange)="onExpandChange(data.id, $event)"></td>
+        <td [nzExpand]="expandSet.has(file.id)" (nzExpandChange)="onExpandChange(file.id, $event)"></td>
         <!-- TYPE -->
         <td nzAlign="center">
-          <i nz-icon nzType={{getIcon(data)?.name}} nzTwotoneColor={{getIcon(data)?.color}} nzTheme="twotone"
+          <i nz-icon nzType={{getIcon(file)?.name}} nzTwotoneColor={{getIcon(file)?.color}} nzTheme="twotone"
             style="font-size: 24px;"></i>
         </td>
         <!-- NAME -->
         <td colspan="2" nz-tooltip>
-          {{ data.name + "." + data.extension }}
+          {{ file.name + "." + file.extension }}
         </td>
         <!-- DATE -->
-        <td>{{ data.uploaded_at.toLocaleDateString()}}</td>
+        <td>{{ file.uploaded_at.toLocaleDateString()}}</td>
         <!-- SIZE -->
-        <td>{{ data.size }} MB</td>
+        <td>{{ file.size }} MB</td>
         <!-- RATE -->
-        <td nzAlign="center">{{ data.rating }}
+        <td nzAlign="center">{{ file.rating }}
           <i nz-icon nzType="star" nzTheme="twotone" nzTwotoneColor="#FFD700"></i>
         </td>
         <!-- DOWNLOADS -->
-        <td nzAlign="center">{{ data.downloads }}
+        <td nzAlign="center">{{ file.downloads }}
           <i nz-icon nzType="down-square" nzTheme="twotone" nzTwotoneColor="#32CD32"></i>
         </td>
       </tr>
-      <!-- Description row -->
-      <tr [nzExpand]="expandSet.has(data.id)">
-        <div nz-row nzJustify="space-between">
-          <span nz-col style="font-weight: bold;">{{ data.description }}</span>
-          <i nz-col nz-icon nzType="download" nzTheme="outline" style="font-size: 18px;"></i>
+      <!-- Description and comments -->
+      <tr [nzExpand]="expandSet.has(file.id)">
+        <div style="padding:18px;" nz-row nzJustify="space-between">
+          <span nz-col style="font-weight: bold;">{{ file.description }}</span>
+          <button nz-button [nzType]="'primary'" (click)="showModal(file)">
+            Download
+            <i nz-col nz-icon nzType="download" nzTheme="outline" style="font-size: 18px;"></i>
+          </button>
         </div>
-
-        <div *ngFor="let comment of data.comments">
+        <div *ngFor="let comment of file.comments">
           <nz-divider></nz-divider>
           <div nz-row nzAlign="top">
             <div nz-col>
@@ -94,15 +96,13 @@
               <nz-rate [ngModel]="comment.rating" nzDisabled></nz-rate>
             </div>
           </div>
-
-
         </div>
       </tr>
     </ng-container>
   </tbody>
 </nz-table>
 
-
+<!-- Filters -->
 <nz-dropdown-menu #menuSize>
   <div class="ant-table-filter-dropdown">
     <div class="filter-box">

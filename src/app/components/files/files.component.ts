@@ -7,6 +7,9 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators'
 import { ActivatedRoute } from '@angular/router';
 import { formatDistance } from 'date-fns';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { user } from 'src/app/types/user';
+import { UserService } from 'src/app/services/user.service';
 
 
 @Component({
@@ -17,8 +20,13 @@ import { formatDistance } from 'date-fns';
 
 export class FilesComponent implements OnInit, OnDestroy {
   constructor(
+    private userService: UserService,
     private fileService: FileService,
-    private router: ActivatedRoute) { this.c = tableColumns }
+    private router: ActivatedRoute,
+    private modal: NzModalService
+  ) { this.c = tableColumns }
+
+  activeUser!: user
 
   dlsFilterVisible = false
   sizeFilterVisible = false
@@ -36,8 +44,10 @@ export class FilesComponent implements OnInit, OnDestroy {
   listOfData: Content[] = [];
   displayData: Content[] = []
   c: Cols
+  modalVisible = false
 
   ngOnInit() {
+    this.getUser()
     this.getFiles()
     this.router.params.subscribe(params => this.setDefaultFilter(params['filter']))
   }
@@ -59,6 +69,14 @@ export class FilesComponent implements OnInit, OnDestroy {
       })
   }
 
+  getUser() {
+    if (this.userService.userExists()) {
+      this.activeUser = this.userService.activeUser
+      return
+    }
+    this.userService.fetchUser().subscribe(user => { this.activeUser = user })
+  }
+
   ngOnDestroy() {
     this.reset()
     this.resetTypeFilter()
@@ -66,12 +84,12 @@ export class FilesComponent implements OnInit, OnDestroy {
     this.unsub$.complete()
   }
 
-  getIcon(data: Content) {
-    if (iconmap.has(data.extension)) {
-      return iconmap.get(data.extension)
+  getIcon(file: Content) {
+    if (iconmap.has(file.extension)) {
+      return iconmap.get(file.extension)
     }
-    if (iconmap.has(data.file_type)) {
-      return iconmap.get(data.file_type)
+    if (iconmap.has(file.file_type)) {
+      return iconmap.get(file.file_type)
     }
     return iconmap.get("unknown")
   }
@@ -79,20 +97,29 @@ export class FilesComponent implements OnInit, OnDestroy {
   onExpandChange(id: string, checked: boolean): void {
     if (checked) {
       this.expandSet.add(id);
-      this.logComments(id)
+      this.getComments(id)
       return
     }
     this.expandSet.delete(id);
   }
 
-  logComments(content_id: string) {
-    this.fileService.getComments(content_id).subscribe(data => {
-      console.log(data)
+  getComments(content_id: string) {
+    this.fileService.getComments(content_id).subscribe(fileComments => {
       const idx = this.listOfData.findIndex(content => content.id == content_id)
       if (idx == -1) { return }
-      this.listOfData[idx].comments = data
-      console.log(this.listOfData);
+      this.listOfData[idx].comments = fileComments
+    })
+  }
 
+  showModal(file: Content) {
+    this.modal.confirm({
+      nzTitle: `<i>Do you want to get ${file.name}?</i>`,
+      nzContent: `<p>required credit: ${file.size}</p>
+      <p>current credit: ${this.activeUser.credit}</p>
+      <p>new credit: ${this.activeUser.credit - file.size}</p>`,
+      nzOnOk: () => {
+        console.log(file.id);
+      }
     })
   }
 
