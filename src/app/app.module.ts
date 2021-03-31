@@ -31,6 +31,7 @@ import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzCommentModule } from 'ng-zorro-antd/comment';
 import { NzRateModule } from 'ng-zorro-antd/rate';
 import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 
 // component modules
 import { FilesComponent } from './components/files/files.component';
@@ -79,7 +80,8 @@ registerLocaleData(en);
     NzDropDownModule,
     NzCommentModule,
     NzRateModule,
-    NzModalModule
+    NzModalModule,
+    NzCollapseModule
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent]

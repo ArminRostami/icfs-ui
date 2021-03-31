@@ -77,8 +77,8 @@
         <div style="padding:18px;" nz-row nzJustify="space-between">
           <span nz-col style="font-weight: bold;">{{ file.description }}</span>
           <button nz-button [nzType]="'primary'" (click)="showModal(file)">
-            Download
             <i nz-col nz-icon nzType="download" nzTheme="outline" style="font-size: 18px;"></i>
+            Download
           </button>
         </div>
         <div *ngFor="let comment of file.comments">

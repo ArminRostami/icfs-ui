@@ -1,23 +1,28 @@
 import { Component } from '@angular/core';
-import { NzMessageService } from 'ng-zorro-antd/message';
-import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
+import { NzUploadFile } from 'ng-zorro-antd/upload';
 
 @Component({
   selector: 'app-upload',
   templateUrl: './upload.component.html'
 })
 export class UploadComponent {
-  constructor(private msg: NzMessageService) {}
+  constructor() { }
 
-  handleChange({ file, fileList }: NzUploadChangeParam): void {
-    const status = file.status;
-    if (status !== 'uploading') {
-      console.log(file, fileList);
-    }
-    if (status === 'done') {
-      this.msg.success(`${file.name} file uploaded successfully.`);
-    } else if (status === 'error') {
-      this.msg.error(`${file.name} file upload failed.`);
-    }
+  collapseDisabled = true;
+  collapseActive = true;
+  descText: string = ""
+
+  fileList: NzUploadFile[] = [];
+
+  beforeUpload = (file: NzUploadFile): boolean => {
+    this.fileList = this.fileList.concat(file);
+    this.collapseDisabled = false;
+    return false;
+  };
+
+  handleUpload() {
+    console.log(this.fileList);
+    console.log(this.descText);
+
   }
 }

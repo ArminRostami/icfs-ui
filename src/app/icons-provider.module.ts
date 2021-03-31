@@ -29,6 +29,7 @@ import {
   BookTwoTone,
   ContainerTwoTone,
   InfoCircleOutline,
+  DeleteOutline
 } from '@ant-design/icons-angular/icons';
 
 const icons = [
@@ -59,7 +60,7 @@ const icons = [
   BookTwoTone,
   ContainerTwoTone,
   InfoCircleOutline,
-
+  DeleteOutline
 
 
 ];

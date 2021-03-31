@@ -5,13 +5,26 @@
 
   <nz-divider></nz-divider>
 
-  <nz-upload nzType="drag" [nzMultiple]="false" nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-    (nzChange)="handleChange($event)">
+  <nz-upload nzType="drag" [(nzFileList)]="fileList" [nzBeforeUpload]="beforeUpload" [nzMultiple]="false">
     <p class="ant-upload-drag-icon">
       <i nz-icon nzType="inbox"></i>
     </p>
     <p class="ant-upload-text">Click or drag file to this area to upload</p>
   </nz-upload>
+  <!-- Description collapse -->
+  <nz-collapse *ngIf="!collapseDisabled" nzGhost>
+    <nz-collapse-panel nzHeader="Description:" [nzActive]="collapseActive" [nzDisabled]="collapseDisabled">
+      <textarea [(ngModel)]="descText" nz-input placeholder="Enter a brief description for this file to continue"
+        [nzAutosize]="{ minRows: 3, maxRows: 6 }"></textarea>
+    </nz-collapse-panel>
+    <div nz-row nzJustify="center">
+      <button style="margin: auto" nz-button [nzType]="'primary'" (click)="handleUpload()"
+        [disabled]="fileList.length == 0 || descText.length == 0">
+        <i nz-icon nzType="upload" nzTheme="outline" style="font-size: 18px;"></i>
+        Upload File
+      </button>
+    </div>
+  </nz-collapse>
 </nz-card>
 
 <ng-template #avatarTemplate>
