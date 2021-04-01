@@ -1,16 +1,22 @@
-<nz-table #filesTable [nzData]="displayData" [nzPageSize]="pageSize" nzTableLayout="fixed" nzLoading={{loading}}>
+<nz-table #filesTable [nzData]="displayData" [nzPageSize]="pageSize" nzTableLayout="fixed" [nzScroll]="{ y: '370px' }"
+  nzLoading={{loading}}>
   <thead>
     <tr>
-      <th nzWidth="35px"></th>
+      <th nzWidth=" 35px">
+      </th>
       <!-- TYPE -->
       <th [nzSortOrder]="c.type.sortOrder" [nzSortFn]="c.type.sortFn" [nzSortDirections]="c.type.sortDirections"
         [nzFilterMultiple]="c.type.filterMultiple!" [nzFilters]="c.type.listOfFilter!" [nzFilterFn]="c.type.filterFn!">
         {{ c.type.name }}
       </th>
       <!-- NAME -->
-      <th colspan="2" [nzSortOrder]="c.name.sortOrder" [nzSortFn]="c.name.sortFn"
+      <th nzCustomFilter colspan="2" [nzSortOrder]="c.name.sortOrder" [nzSortFn]="c.name.sortFn"
         [nzSortDirections]="c.name.sortDirections">
         {{ c.name.name }}
+        <nz-filter-trigger [(nzVisible)]="textSearchVisible" [nzActive]="textSearchValue.length > 0"
+          [nzDropdownMenu]="menuName">
+          <i nz-icon nzType="search"></i>
+        </nz-filter-trigger>
       </th>
       <!-- DATE -->
       <th [nzSortOrder]="c.date.sortOrder" [nzSortFn]="c.date.sortFn" [nzSortDirections]="c.date.sortDirections">
@@ -136,6 +142,18 @@
       <input type="number" nz-input placeholder="Less than" [(ngModel)]="ltDls" />
       <button nz-button nzSize="small" nzType="primary" (click)="filterDls()" class="filter-button">
         Filter
+      </button>
+      <button nz-button nzSize="small" (click)="reset()">Reset</button>
+    </div>
+  </div>
+</nz-dropdown-menu>
+
+<nz-dropdown-menu #menuName>
+  <div class="ant-table-filter-dropdown">
+    <div class="search-box">
+      <input type="text" nz-input placeholder="Text search name,desc" [(ngModel)]="textSearchValue" />
+      <button nz-button nzSize="small" nzType="primary" (click)="textSearch()" class="search-button">
+        Search
       </button>
       <button nz-button nzSize="small" (click)="reset()">Reset</button>
     </div>

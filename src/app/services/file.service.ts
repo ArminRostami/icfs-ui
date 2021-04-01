@@ -18,8 +18,10 @@ export class FileService {
         (resp: any) => resp["results"]
       ),
       tap(
-        (contents: any[]) =>
+        (contents: any[]) => {
+          if (contents == null) contents = []
           contents.forEach(content => { content["uploaded_at"] = new Date(content["uploaded_at"]) })
+        }
       )
     )
   }
@@ -27,9 +29,23 @@ export class FileService {
   getComments(id: string): Observable<Comment[]> {
     return this.http.get<Comment[]>(API.getComments + `?id=${id}`).pipe(
       tap(comments => {
-        if (comments === null) return
+        if (comments === null) comments = []
         comments.forEach(comment => { comment["comment_time"] = new Date(comment["comment_time"]) })
       })
+    )
+  }
+
+  testSearch(term: string): Observable<Content[]> {
+    return this.http.post(API.textSearch, { "term": term }).pipe(
+      map(
+        (data: any) => data["results"]
+      ),
+      tap(
+        (contents: Content[]) => {
+          if (contents == null) contents = []
+          contents.forEach(content => { content["uploaded_at"] = new Date(content["uploaded_at"]) })
+        }
+      )
     )
   }
 }

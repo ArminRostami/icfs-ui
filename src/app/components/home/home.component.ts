@@ -1,5 +1,4 @@
 import { NzTableFilterList } from 'ng-zorro-antd/table';
-import { fileTypes } from './../files/file-types';
 import { Component, OnInit } from '@angular/core';
 import { tableColumns } from '../files/columns';
 import { iconmap } from '../files/icons';

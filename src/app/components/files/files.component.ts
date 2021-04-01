@@ -31,6 +31,8 @@ export class FilesComponent implements OnInit, OnDestroy {
   dlsFilterVisible = false
   sizeFilterVisible = false
   rateFilterVisible = false
+  textSearchVisible = false
+  textSearchValue = ""
   ltSize = +Infinity
   gtSize = -Infinity
   ltRate = 5
@@ -132,6 +134,9 @@ export class FilesComponent implements OnInit, OnDestroy {
     this.dlsFilterVisible = false
     this.sizeFilterVisible = false
     this.rateFilterVisible = false
+    this.textSearchVisible = false
+    this.textSearchValue = ""
+
     this.ltSize = +Infinity
     this.gtSize = -Infinity
     this.ltRate = 5
@@ -154,6 +159,13 @@ export class FilesComponent implements OnInit, OnDestroy {
   }
   filterDls() {
     this.displayData = this.displayData.filter(content => content.downloads >= this.gtDls && content.downloads <= this.ltDls)
+  }
+  textSearch() {
+    this.fileService.testSearch(this.textSearchValue).subscribe(results => {
+      console.log("results: " + results);
+
+      this.displayData = results
+    })
   }
 
   resetTypeFilter() {
