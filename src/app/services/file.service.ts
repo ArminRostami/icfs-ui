@@ -4,6 +4,8 @@ import { Content, Comment } from '../types/content';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
+import { NzUploadFile } from 'ng-zorro-antd/upload';
+import { fileTypes } from '../components/files/file-types';
 
 @Injectable({
   providedIn: 'root'
@@ -35,7 +37,7 @@ export class FileService {
     )
   }
 
-  testSearch(term: string): Observable<Content[]> {
+  textSearch(term: string): Observable<Content[]> {
     return this.http.post(API.textSearch, { "term": term }).pipe(
       map(
         (data: any) => data["results"]
@@ -48,4 +50,60 @@ export class FileService {
       )
     )
   }
+
+  uploadFile(file: NzUploadFile, desc: string) {
+    const idx = file.name.indexOf(".")
+    const name = file.name.substring(0, idx)
+    const ext = file.name.substring(idx + 1)
+    const payload = {
+      "description": desc,
+      "name": name,
+      "extension": ext,
+      "size": Math.floor(file.size! / (1024 * 1024)) + 1,
+      "file_type": this.getType(ext, file.type!)
+    }
+    return this.http.post(API.upload, payload, { withCredentials: true })
+  }
+
+  getType(extension: string, type: string): string {
+    switch (extension) {
+      case "7z":
+      case "arj":
+      case "deb":
+      case "pkg":
+      case "rar":
+      case "rpm":
+      case "tar.gz":
+      case "z":
+      case "zip":
+      case "gz":
+      case "cab":
+        return fileTypes.Archive
+
+      case "xls":
+      case "ods":
+      case "xlsx":
+      case "xlsm":
+        return fileTypes.Spreadsheet
+
+      case "key":
+      case "odp":
+      case "pps":
+      case "ppt":
+      case "pptx":
+        return fileTypes.Presentation
+
+      case "doc":
+      case "docx":
+      case "pdf":
+      case "odt":
+      case "tex":
+      case "wpd":
+        return fileTypes.Document
+
+      default: return type.split("/", 2)[0]
+    }
+  }
+
+
 }

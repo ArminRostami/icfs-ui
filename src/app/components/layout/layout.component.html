@@ -7,7 +7,7 @@
     </div>
 
     <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
-      <li *ngIf="user" nz-submenu nzIcon="user" nzTitle={{user.username}}></li>
+      <li *ngIf="user!=undefined" nz-submenu nzIcon="user" nzTitle={{user.username}}></li>
 
       <li nz-submenu nzOpen nzTitle="Dashboard" nzIcon="dashboard">
         <ul>

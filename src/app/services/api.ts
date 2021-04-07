@@ -5,5 +5,6 @@ export const API = {
   login: `${base}/users/login`,
   getAllFiles: `${base}/contents/all`,
   getComments: `${base}/contents/comment`,
-  textSearch: `${base}/contents/search`
+  textSearch: `${base}/contents/search`,
+  upload: `${base}/contents`
 }

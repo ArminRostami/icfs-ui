@@ -5,12 +5,13 @@
 
   <nz-divider></nz-divider>
 
-  <nz-upload nzType="drag" [(nzFileList)]="fileList" [nzBeforeUpload]="beforeUpload" [nzMultiple]="false">
+  <nz-upload nzType="drag" [(nzFileList)]="fileList" [nzBeforeUpload]="beforeUpload">
     <p class="ant-upload-drag-icon">
       <i nz-icon nzType="inbox"></i>
     </p>
     <p class="ant-upload-text">Click or drag file to this area to upload</p>
   </nz-upload>
+
   <!-- Description collapse -->
   <nz-collapse *ngIf="fileList.length > 0" nzGhost>
     <nz-collapse-panel nzHeader="Description:" [nzActive]="'true'" [nzDisabled]="fileList.length==0">

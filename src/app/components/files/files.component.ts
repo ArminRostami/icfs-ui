@@ -161,7 +161,7 @@ export class FilesComponent implements OnInit, OnDestroy {
     this.displayData = this.displayData.filter(content => content.downloads >= this.gtDls && content.downloads <= this.ltDls)
   }
   textSearch() {
-    this.fileService.testSearch(this.textSearchValue).subscribe(results => {
+    this.fileService.textSearch(this.textSearchValue).subscribe(results => {
       console.log("results: " + results);
 
       this.displayData = results
