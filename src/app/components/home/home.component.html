@@ -1,7 +1,7 @@
 <div>
-  <div nz-row [nzGutter]="8">
+  <div nz-row nzJustify="space-around">
     <!-- Explore card -->
-    <div nz-col [nzSpan]="8">
+    <div nz-col>
       <nz-card style="width:300px;">
         <nz-card-meta nzTitle="Explore" nzDescription="Explore the files uploaded by the community."
           [nzAvatar]="avatarTemplate">
@@ -23,12 +23,12 @@
     </div>
 
     <!-- Upload card -->
-    <div nz-col [nzSpan]="8">
+    <div nz-col>
       <app-upload></app-upload>
     </div>
 
     <!-- myFiles card -->
-    <div nz-col [nzSpan]="8">
+    <div nz-col>
       <nz-card style="width:300px;">
         <nz-card-meta nzTitle="My Files" nzDescription="Review and modify your files." [nzAvatar]="avatarTemplate2">
         </nz-card-meta>

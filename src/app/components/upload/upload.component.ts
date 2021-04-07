@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
-import { FileService } from 'src/app/services/file.service';
+import { FileService } from '@icfs/services/file.service';
+import { ipcRenderer } from 'electron'
 
 @Component({
   selector: 'app-upload',
@@ -22,5 +23,8 @@ export class UploadComponent {
     console.log(this.fileList);
     console.log(this.descText);
     this.fileService.uploadFile(this.fileList[0], this.descText).subscribe(resp => console.log(resp))
+  }
+  openDialog() {
+    ipcRenderer.send("open-dialog", true)
   }
 }

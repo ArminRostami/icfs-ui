@@ -82,7 +82,7 @@ registerLocaleData(en);
     NzCommentModule,
     NzRateModule,
     NzModalModule,
-    NzCollapseModule
+    NzCollapseModule,
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent]
