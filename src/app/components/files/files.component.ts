@@ -1,15 +1,15 @@
 import { iconmap } from './icons';
 import { Cols, tableColumns } from './columns';
-import { Content } from './../../types/content';
-import { FileService } from './../../services/file.service';
+import { Content } from '@icfs/types/content';
+import { FileService } from '@icfs/services/file.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators'
 import { ActivatedRoute } from '@angular/router';
 import { formatDistance } from 'date-fns';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { user } from 'src/app/types/user';
-import { UserService } from 'src/app/services/user.service';
+import { user } from '@icfs/types/user';
+import { UserService } from '@icfs/services/user.service';
 
 
 @Component({

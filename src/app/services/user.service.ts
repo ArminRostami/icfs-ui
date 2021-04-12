@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 import { API } from './api';
-import { user } from './../types/user';
+import { user } from '@icfs/types/user';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { tap } from 'rxjs/operators';

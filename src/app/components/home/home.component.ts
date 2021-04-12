@@ -1,7 +1,7 @@
 import { NzTableFilterList } from 'ng-zorro-antd/table';
 import { Component, OnInit } from '@angular/core';
-import { tableColumns } from '../files/columns';
-import { iconmap } from '../files/icons';
+import { tableColumns } from '@icfs/components/files/columns';
+import { iconmap } from '@icfs/components/files/icons';
 
 @Component({
   selector: 'app-home',

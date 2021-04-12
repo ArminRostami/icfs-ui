@@ -2,22 +2,22 @@ import { BrowserWindow, app } from 'electron';
 import { ipcMain, dialog } from 'electron';
 import { environment } from './src/environments/environment'
 
-class Main {
+class Electron {
     static win: BrowserWindow | null
-    static elApp: typeof app
+    static app: typeof app
 
-    static Main() {
-        Main.elApp = app
-        Main.elApp.whenReady().then(Main.onReady)
-        Main.elApp.on("window-all-closed", () => {
+    static Run() {
+        Electron.app = app
+        Electron.app.whenReady().then(Electron.onReady)
+        Electron.app.on("window-all-closed", () => {
             if (process.platform !== 'darwin') {
-                Main.elApp.quit();
+                Electron.app.quit();
             }
         })
     }
 
     private static onReady() {
-        Main.win = new BrowserWindow({
+        Electron.win = new BrowserWindow({
             width: 1200, height: 800, webPreferences: {
                 nodeIntegration: true,
                 contextIsolation: false,
@@ -26,17 +26,17 @@ class Main {
         });
 
         if (environment.production) {
-            Main.win.loadFile("dist/index.html")
+            Electron.win.loadFile("dist/index.html")
         } else {
-            Main.win.loadURL("http://127.0.0.1:4200")
+            Electron.win.loadURL("http://127.0.0.1:4200")
         }
 
-        Main.win.webContents.openDevTools()
+        Electron.win.webContents.openDevTools()
 
-        Main.setupIPC()
+        Electron.setupIPC()
 
-        Main.win.on('closed', () => {
-            Main.win = null;
+        Electron.win.on('closed', () => {
+            Electron.win = null;
         });
     }
 
@@ -49,4 +49,4 @@ class Main {
     }
 }
 
-Main.Main()
+Electron.Run()

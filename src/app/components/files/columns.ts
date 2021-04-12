@@ -1,6 +1,6 @@
-import { fileTypes } from './file-types';
+import { fileTypes } from '@icfs/components/files/file-types';
 import { NzTableFilterFn, NzTableFilterList, NzTableSortFn, NzTableSortOrder } from 'ng-zorro-antd/table';
-import { Content } from 'src/app/types/content';
+import { Content } from '@icfs/types/content';
 
 
 export interface Cols {
@@ -51,15 +51,6 @@ export const tableColumns: Cols = {
     sortFn: (a: Content, b: Content) => a.name.localeCompare(b.name),
     sortDirections: ['ascend', 'descend', null],
   },
-  // {
-  //   name: 'Uploader',
-  //   sortOrder: null,
-  //   sortFn: (a: Content, b: Content) => a.uploader.localeCompare(b.uploader),
-  //   sortDirections: ['ascend', 'descend', null],
-  //   listOfFilter: [],
-  //   filterFn: null,
-  //   filterMultiple: true
-  // },
   date: {
     name: 'Date',
     sortOrder: 'descend',

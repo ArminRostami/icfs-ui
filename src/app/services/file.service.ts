@@ -1,11 +1,11 @@
 import { API } from './api';
 import { HttpClient } from '@angular/common/http';
-import { Content, Comment } from '../types/content';
+import { Content, Comment } from '@icfs/types/content';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
-import { fileTypes } from '../components/files/file-types';
+import { fileTypes } from '@icfs/components/files/file-types';
 
 @Injectable({
   providedIn: 'root'
