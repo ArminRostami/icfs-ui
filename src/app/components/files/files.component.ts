@@ -2,14 +2,12 @@ import { Icons } from './icons';
 import { Cols, tableColumns } from './columns';
 import { Content } from '@icfs/types/content';
 import { FileService } from '@icfs/services/file.service';
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators'
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { formatDistance } from 'date-fns';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { user } from '@icfs/types/user';
-import { UserService } from '@icfs/services/user.service';
 
 
 @Component({
@@ -20,37 +18,46 @@ import { UserService } from '@icfs/services/user.service';
 
 export class FilesComponent implements OnInit, OnDestroy {
   constructor(
-    private userService: UserService,
     private fileService: FileService,
     private router: ActivatedRoute,
     private modal: NzModalService
   ) { this.c = tableColumns }
 
-  activeUser!: user
+  @Input() activeUser!: user
+  @Input() fileStream!: Observable<Content[]>;
+  @Input() editMode = false
+
+  fileList: Content[] = []
+  displayData: Content[] = []
+
 
   dlsFilterVisible = false
   sizeFilterVisible = false
   rateFilterVisible = false
   textSearchVisible = false
+
   textSearchValue = ""
+
   ltSize = +Infinity
   gtSize = -Infinity
   ltRate = 5
   gtRate = 0
   gtDls = 0
   ltDls = +Infinity
+
   pageSize = 6
   expandSet = new Set<string>();
   loading = true
   unsub$ = new Subject();
-  listOfData: Content[] = [];
-  displayData: Content[] = []
   c: Cols
   modalVisible = false
 
   ngOnInit() {
-    this.getUser()
-    this.getFiles()
+    this.fileStream.subscribe(files => {
+      this.fileList = files
+      this.displayData = files
+      this.loading = false
+    })
     this.router.params.subscribe(params => this.setDefaultFilter(params['filter']))
   }
 
@@ -58,25 +65,6 @@ export class FilesComponent implements OnInit, OnDestroy {
     if (ftype === undefined) return
     const item = this.c.type.listOfFilter?.find(item => item.text.toLowerCase() == ftype.toLowerCase())!
     item.byDefault = true
-  }
-
-  getFiles() {
-    this.fileService.getFiles()
-      .pipe(takeUntil(this.unsub$))
-      .subscribe(contents => {
-        this.listOfData = contents
-        this.displayData = this.listOfData
-        console.log(contents)
-        this.loading = false
-      })
-  }
-
-  getUser() {
-    if (this.userService.userExists()) {
-      this.activeUser = this.userService.activeUser
-      return
-    }
-    this.userService.fetchUser().subscribe(user => { this.activeUser = user })
   }
 
   ngOnDestroy() {
@@ -101,13 +89,21 @@ export class FilesComponent implements OnInit, OnDestroy {
 
   getComments(content_id: string) {
     this.fileService.getComments(content_id).subscribe(fileComments => {
-      const idx = this.listOfData.findIndex(content => content.id == content_id)
+      const idx = this.fileList.findIndex(content => content.id == content_id)
       if (idx == -1) { return }
-      this.listOfData[idx].comments = fileComments
+      this.fileList[idx].comments = fileComments
     })
   }
 
   showModal(file: Content) {
+    if (!this.editMode)
+      this.showDownloadModal(file)
+    else {
+      this.showDeleteModal(file)
+    }
+  }
+
+  showDownloadModal(file: Content) {
     this.modal.confirm({
       nzTitle: `<i>Do you want to get ${file.name}?</i>`,
       nzContent: `<p>required credit: ${file.size}</p>
@@ -119,10 +115,21 @@ export class FilesComponent implements OnInit, OnDestroy {
     })
   }
 
+  showDeleteModal(file: Content) {
+    this.modal.confirm({
+      nzTitle: `<i>Are you sure you want to delete ${file.name}?</i>`,
+      nzContent: `<p>you will lose: ${file.size} credit.</p>
+      <p>current credit: ${this.activeUser.credit}</p>
+      <p>new credit: ${this.activeUser.credit - file.size}</p>`,
+      nzOnOk: () => {
+        console.log(file.id);
+      }
+    })
+  }
+
   getTime(time: Date): string {
     return formatDistance(time, new Date())
   }
-
 
   reset() {
     this.dlsFilterVisible = false
@@ -137,9 +144,8 @@ export class FilesComponent implements OnInit, OnDestroy {
     this.gtRate = 0
     this.gtDls = 0
     this.ltDls = +Infinity
-    this.displayData = this.listOfData
+    this.displayData = this.fileList
   }
-
 
   NotInfinite(x: number): boolean {
     return isFinite(x)
@@ -154,6 +160,7 @@ export class FilesComponent implements OnInit, OnDestroy {
   filterDls() {
     this.displayData = this.displayData.filter(content => content.downloads >= this.gtDls && content.downloads <= this.ltDls)
   }
+
   textSearch() {
     this.fileService.textSearch(this.textSearchValue).subscribe(results => {
       console.log("results: " + results);
