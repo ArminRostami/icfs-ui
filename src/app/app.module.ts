@@ -42,6 +42,7 @@ import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.com
 import { HomeComponent } from './components/home/home.component';
 import { UploadComponent } from './components/upload/upload.component';
 import { ExploreComponent } from './components/explore/explore.component';
+import { MyfilesComponent } from './components/myfiles/myfiles.component';
 
 registerLocaleData(en);
 
@@ -55,7 +56,8 @@ registerLocaleData(en);
     PageNotFoundComponent,
     HomeComponent,
     UploadComponent,
-    ExploreComponent
+    ExploreComponent,
+    MyfilesComponent
   ],
   imports: [
     BrowserModule,

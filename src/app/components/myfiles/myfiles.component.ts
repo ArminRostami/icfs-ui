@@ -6,14 +6,13 @@ import { user } from '@icfs/types/user';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
-  selector: 'app-explore',
-  templateUrl: './explore.component.html',
-  styleUrls: ['./explore.component.less']
+  selector: 'app-myfiles',
+  templateUrl: './myfiles.component.html',
+  styleUrls: ['./myfiles.component.less']
 })
-export class ExploreComponent implements OnInit {
+export class MyfilesComponent implements OnInit {
 
   constructor(private userService: UserService, private fileService: FileService) { }
-
   activeUser!: user
   dataStream = new BehaviorSubject<Content[]>([]);
   dataStream$ = this.dataStream.asObservable()
@@ -22,7 +21,6 @@ export class ExploreComponent implements OnInit {
     this.getUser()
     this.getFiles()
   }
-
   getUser() {
     if (this.userService.userExists()) {
       this.activeUser = this.userService.activeUser
@@ -30,12 +28,12 @@ export class ExploreComponent implements OnInit {
     }
     this.userService.fetchUser().subscribe(user => { this.activeUser = user })
   }
-
   getFiles() {
-    this.fileService.getFiles()
+    this.fileService.getUserFiles()
       .subscribe(contents => {
         this.dataStream.next(contents)
-        console.log(contents)
+        console.log("contents are", contents)
       })
   }
+
 }

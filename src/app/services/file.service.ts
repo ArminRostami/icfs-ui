@@ -4,7 +4,6 @@ import { Content, Comment } from '@icfs/types/content';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { Ftypes } from '@icfs/components/files/file-types';
 import { fileData } from '@icfs/types/fileData';
 
 @Injectable({
@@ -65,5 +64,15 @@ export class FileService {
     return this.http.post(API.upload, payload, { withCredentials: true })
   }
 
-
+  getUserFiles(): Observable<Content[]> {
+    return this.http.get(API.getUserFiles, { withCredentials: true }).pipe(
+      map((resp: any) => resp["results"]),
+      tap(
+        (contents: Content[]) => {
+          if (contents == null) contents = []
+          contents.forEach(content => { content["uploaded_at"] = new Date(content["uploaded_at"]) })
+        }
+      )
+    )
+  }
 }

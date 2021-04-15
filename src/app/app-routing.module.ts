@@ -1,3 +1,4 @@
+import { MyfilesComponent } from './components/myfiles/myfiles.component';
 import { HomeComponent } from './components/home/home.component';
 import { LayoutComponent } from './components/layout/layout.component';
 import { LoginComponent } from './components/login/login.component';
@@ -11,7 +12,9 @@ const routes: Routes = [
   {
     path: '', component: LayoutComponent, children: [
       { path: 'home', component: HomeComponent },
+
       { path: 'explore', component: ExploreComponent },
+      { path: 'myfiles', component: MyfilesComponent },
       { path: 'explore/:filter', component: ExploreComponent },
     ]
   },

@@ -13,6 +13,7 @@ export class LayoutComponent implements OnInit {
 
   constructor(private userService: UserService) { }
 
+  // TODO: implement log out
   ngOnInit(): void {
 
     if (this.userService.userExists()) {
