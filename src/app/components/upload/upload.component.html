@@ -5,34 +5,35 @@
 
   <nz-divider></nz-divider>
 
-  <!-- <nz-upload nzType="drag" [(nzFileList)]="fileList" [nzBeforeUpload]="beforeUpload">
-    <p class="ant-upload-drag-icon">
-      <i nz-icon nzType="inbox"></i>
-    </p>
-    <p class="ant-upload-text">Click or drag file to this area to upload</p>
-  </nz-upload> -->
-
-  <div (click)="openDialog()">
-    <p class="ant-upload-drag-icon">
-      <i nz-icon nzType="inbox"></i>
-    </p>
-    <p class="ant-upload-text">Click or drag file to this area to upload</p>
+  <div nz-row>
+    <button (click)="openDialog()" nz-button nzType="primary" nzSize="large" nzShape="round">
+      <i nz-icon nzType="inbox"></i>Select a file</button>
   </div>
 
-  <!-- Description collapse -->
-  <nz-collapse *ngIf="fileList.length > 0" nzGhost>
-    <nz-collapse-panel nzHeader="Description:" [nzActive]="'true'" [nzDisabled]="fileList.length==0">
-      <textarea [(ngModel)]="descText" nz-input placeholder="Enter a brief description for this file to continue"
-        [nzAutosize]="{ minRows: 3, maxRows: 6 }"></textarea>
-    </nz-collapse-panel>
-    <div nz-row nzJustify="end">
-      <button style="margin-right: 16px;" nz-button [nzType]="'primary'" (click)="handleUpload()"
-        [disabled]="fileList.length == 0 || descText.length == 0">
-        <i nz-icon nzType="upload" nzTheme="outline" style="font-size: 18px;"></i>
-        Upload File
-      </button>
-    </div>
-  </nz-collapse>
+  <div nz-row>
+    <nz-tag style="margin-top: 5px;" *ngIf="fileInfo !== null" [nzColor]="tagColor" nzMode="closeable"
+      (nzOnClose)="onClose()">
+      {{fileInfo.name+'.'+fileInfo.extension |
+      slice:0:40 }}
+    </nz-tag>
+  </div>
+
+  <div nz-row>
+    <nz-collapse nzGhost>
+      <nz-collapse-panel nzHeader="Description:" [nzDisabled]="fileInfo === null" [nzActive]="'true'">
+        <textarea [disabled]="fileInfo === null" [(ngModel)]="descText" nz-input
+          placeholder="Enter a brief description for this file" [nzAutosize]="{ minRows: 3, maxRows: 6 }"></textarea>
+      </nz-collapse-panel>
+      <div nz-row nzJustify="end">
+        <button style="margin-right: 16px;" nz-button [nzType]="'primary'" (click)="handleUpload()"
+          [disabled]="fileInfo === null || descText.length === 0">
+          <i nz-icon nzType="upload" nzTheme="outline" style="font-size: 18px;"></i>
+          Upload File
+        </button>
+      </div>
+    </nz-collapse>
+  </div>
+
 </nz-card>
 
 <ng-template #avatarTemplate>

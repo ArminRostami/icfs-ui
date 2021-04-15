@@ -1,25 +1,20 @@
+import { Icons } from './../files/icons';
 import { NzTableFilterList } from 'ng-zorro-antd/table';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { tableColumns } from '@icfs/components/files/columns';
-import { iconmap } from '@icfs/components/files/icons';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.less']
 })
-export class HomeComponent implements OnInit {
-  constructor() { }
+export class HomeComponent {
 
-  types!: NzTableFilterList
-  icons: any
+  constructor() { this.types = tableColumns.type.listOfFilter! }
 
-  ngOnInit() {
-    this.types = tableColumns.type.listOfFilter!
-    this.icons = iconmap
-  }
+  types: NzTableFilterList
 
   getIcon(ftype: string) {
-    return this.icons.get(ftype)
+    return Icons.getIcon("", ftype)
   }
 }

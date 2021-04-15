@@ -1,4 +1,4 @@
-import { iconmap } from './icons';
+import { Icons } from './icons';
 import { Cols, tableColumns } from './columns';
 import { Content } from '@icfs/types/content';
 import { FileService } from '@icfs/services/file.service';
@@ -87,13 +87,7 @@ export class FilesComponent implements OnInit, OnDestroy {
   }
 
   getIcon(file: Content) {
-    if (iconmap.has(file.extension)) {
-      return iconmap.get(file.extension)
-    }
-    if (iconmap.has(file.file_type)) {
-      return iconmap.get(file.file_type)
-    }
-    return iconmap.get("unknown")
+    return Icons.getIcon(file.extension, file.file_type)
   }
 
   onExpandChange(id: string, checked: boolean): void {

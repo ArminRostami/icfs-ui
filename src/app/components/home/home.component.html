@@ -10,7 +10,7 @@
         <ng-container *ngFor="let item of types">
           <a nz-row id="explore-rows" nzAlign="middle" nzJustify="space-around" [routerLink]="['/explore', item.value]">
             <span nz-col nzSpan=8>{{item.text}}</span>
-            <i nz-col nz-icon nzType={{getIcon(item.value).name}} nzTwotoneColor={{getIcon(item.value).color}}
+            <i nz-col nz-icon nzType={{getIcon(item.value)!.name}} nzTwotoneColor={{getIcon(item.value)!.color}}
               style="font-size: 24px;" nzTheme="twotone"></i>
           </a>
         </ng-container>

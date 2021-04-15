@@ -1,6 +1,10 @@
 import { BrowserWindow, app } from 'electron';
 import { ipcMain, dialog } from 'electron';
+import * as fs from "fs";
+import * as path from "path"
+import { lookup } from "mime-types"
 import { environment } from './src/environments/environment'
+import { fileData } from './src/app/types/fileData';
 
 class Electron {
     static win: BrowserWindow | null
@@ -41,9 +45,29 @@ class Electron {
     }
 
     private static setupIPC() {
-        ipcMain.on("open-dialog", (_, args) => {
+        ipcMain.on("open-dialog", (event, _) => {
             dialog.showOpenDialog({ properties: ['openFile'] }).then((resp) => {
-                console.log(args, resp);
+                if (resp.canceled) {
+                    event.reply("file-info", { canceled: true })
+                    return
+                }
+                const dir = resp.filePaths[0]
+                const type = lookup(dir)
+                if (typeof type === "boolean") {
+                    return
+                }
+                const full_name = path.basename(dir)
+                const idx = full_name.indexOf(".")
+
+                const fileInfo: fileData = {
+                    canceled: false,
+                    path: dir,
+                    name: full_name.substring(0, idx),
+                    extension: full_name.substring(idx + 1),
+                    size: fs.statSync(dir).size,
+                    type: type
+                }
+                event.reply("file-info", fileInfo)
             })
         })
     }

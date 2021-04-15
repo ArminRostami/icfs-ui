@@ -24,7 +24,6 @@ import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzResultModule } from 'ng-zorro-antd/result';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
-import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzMessageModule } from 'ng-zorro-antd/message';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
@@ -33,6 +32,7 @@ import { NzCommentModule } from 'ng-zorro-antd/comment';
 import { NzRateModule } from 'ng-zorro-antd/rate';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
+import { NzTagModule } from 'ng-zorro-antd/tag';
 
 // component modules
 import { FilesComponent } from './components/files/files.component';
@@ -74,7 +74,6 @@ registerLocaleData(en);
     NzSpaceModule,
     NzResultModule,
     NzAvatarModule,
-    NzUploadModule,
     NzMessageModule,
     NzDividerModule,
     NzToolTipModule,
@@ -83,6 +82,7 @@ registerLocaleData(en);
     NzRateModule,
     NzModalModule,
     NzCollapseModule,
+    NzTagModule
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent]
