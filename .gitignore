@@ -46,3 +46,4 @@ testem.log
 Thumbs.db
 # User defined:
 app.js
+src/app/types/fileData.js

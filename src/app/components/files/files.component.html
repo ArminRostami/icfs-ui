@@ -87,6 +87,7 @@
             {{editMode?'delete':'download'}}
           </button>
         </div>
+
         <div *ngFor="let comment of file.comments">
           <nz-divider></nz-divider>
           <div nz-row nzAlign="top">
@@ -103,6 +104,32 @@
             </div>
           </div>
         </div>
+
+        <div *ngIf="!editMode">
+          <nz-divider></nz-divider>
+          <h3>Write a Review:</h3>
+          <nz-comment>
+            <nz-avatar nz-comment-avatar nzIcon="user"></nz-avatar>
+            <nz-comment-content>
+              <nz-form-item>
+                <textarea [(ngModel)]="commentText" nz-input rows="4"></textarea>
+              </nz-form-item>
+              <div nz-row nzJustify="space-between">
+                <span>
+                  Select Rating:
+                  <nz-rate [(ngModel)]="userRating" nzAllowHalf></nz-rate>
+                </span>
+                <nz-form-item>
+                  <button nz-button nzType="primary" [nzLoading]="submitting"
+                    [disabled]="commentText.length===0 || userRating===0" (click)="submitReview()">
+                    Submit
+                  </button>
+                </nz-form-item>
+              </div>
+            </nz-comment-content>
+          </nz-comment>
+        </div>
+
       </tr>
     </ng-container>
   </tbody>

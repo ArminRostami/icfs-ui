@@ -35,8 +35,13 @@ export class FilesComponent implements OnInit, OnDestroy {
   sizeFilterVisible = false
   rateFilterVisible = false
   textSearchVisible = false
+  modalVisible = false
+
+  loading = true
+  submitting = false
 
   textSearchValue = ""
+  commentText = ""
 
   ltSize = +Infinity
   gtSize = -Infinity
@@ -46,11 +51,12 @@ export class FilesComponent implements OnInit, OnDestroy {
   ltDls = +Infinity
 
   pageSize = 6
+  userRating = 0
+
   expandSet = new Set<string>();
-  loading = true
   unsub$ = new Subject();
+
   c: Cols
-  modalVisible = false
 
   ngOnInit() {
     this.fileStream.subscribe(files => {
@@ -82,9 +88,12 @@ export class FilesComponent implements OnInit, OnDestroy {
     if (checked) {
       this.expandSet.add(id);
       this.getComments(id)
-      return
+    } else {
+      this.expandSet.delete(id);
     }
-    this.expandSet.delete(id);
+
+    this.commentText = "";
+    this.userRating = 0;
   }
 
   getComments(content_id: string) {
@@ -93,6 +102,13 @@ export class FilesComponent implements OnInit, OnDestroy {
       if (idx == -1) { return }
       this.fileList[idx].comments = fileComments
     })
+  }
+
+  submitReview() {
+    // TODO: send reviews to API
+    this.submitting = true
+    console.log(this.commentText, this.userRating);
+    this.submitting = false
   }
 
   showModal(file: Content) {
@@ -110,6 +126,7 @@ export class FilesComponent implements OnInit, OnDestroy {
       <p>current credit: ${this.activeUser.credit}</p>
       <p>new credit: ${this.activeUser.credit - file.size}</p>`,
       nzOnOk: () => {
+        // TODO: get file from server
         console.log(file.id);
       }
     })
@@ -122,6 +139,7 @@ export class FilesComponent implements OnInit, OnDestroy {
       <p>current credit: ${this.activeUser.credit}</p>
       <p>new credit: ${this.activeUser.credit - file.size}</p>`,
       nzOnOk: () => {
+        // TODO: send delete to API
         console.log(file.id);
       }
     })
