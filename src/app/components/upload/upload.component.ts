@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FileService } from '@icfs/services/file.service';
-import { ipcRenderer } from 'electron'
 import { fileData } from '@icfs/types/fileData';
 import { NgZone } from '@angular/core';
 import { Icons } from '../files/icons';
@@ -8,42 +7,47 @@ import { Ftypes } from '../files/file-types';
 
 @Component({
   selector: 'app-upload',
-  templateUrl: './upload.component.html'
+  templateUrl: './upload.component.html',
 })
 export class UploadComponent implements OnInit {
-  constructor(private fileService: FileService, private zone: NgZone) { }
+  constructor(private fileService: FileService, private zone: NgZone) {}
 
-  tagColor = "#1890ff"
-  descText: string = ""
-  fileInfo: fileData | null = null
+  tagColor = '#1890ff';
+  descText: string = '';
+  fileInfo: fileData | null = null;
 
   handleUpload() {
-    if (this.fileInfo === null) { return }
-    this.fileService.uploadFile(this.fileInfo, this.descText).subscribe(resp => {
-      console.log(resp);
-    })
+    if (this.fileInfo === null) {
+      return;
+    }
+    this.fileService
+      .uploadFile(this.fileInfo, this.descText)
+      .subscribe((resp) => {
+        console.log(resp);
+      });
   }
 
-  ngOnInit() {
-    ipcRenderer.on("file-info", (_, fInfo) => {
-      if (fInfo.canceled) { return }
-      this.zone.run(() => { this.setFileInfo(fInfo) })
-    })
-  }
+  ngOnInit() {}
 
   setFileInfo(info: any) {
-    this.fileInfo = info
-    if (!this.fileInfo) { return }
-    this.fileInfo.type = Ftypes.getRealType(this.fileInfo.extension, this.fileInfo.type)
-    this.tagColor = Icons.getIcon(this.fileInfo.extension, this.fileInfo.type).color
+    this.fileInfo = info;
+    if (!this.fileInfo) {
+      return;
+    }
+    this.fileInfo.type = Ftypes.getRealType(
+      this.fileInfo.extension,
+      this.fileInfo.type
+    );
+    this.tagColor = Icons.getIcon(
+      this.fileInfo.extension,
+      this.fileInfo.type
+    ).color;
   }
 
   onClose() {
-    this.fileInfo = null
-    this.descText = ""
+    this.fileInfo = null;
+    this.descText = '';
   }
 
-  openDialog() {
-    ipcRenderer.send("open-dialog")
-  }
+  openDialog() {}
 }

@@ -3,17 +3,13 @@
   "version": "0.0.0",
   "author": "Armin Rostami",
   "description": "ICFS User Interface",
-  "main": "app.js",
   "scripts": {
     "ng": "ng",
-    "start": "rm app.js && tsc app.ts && electron-forge start",
+    "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e",
-    "electron": "ng build --base-href ./ && electron .",
-    "package": "electron-forge package",
-    "make": "electron-forge make"
+    "e2e": "ng e2e"
   },
   "private": true,
   "dependencies": {
@@ -25,7 +21,6 @@
     "@angular/platform-browser": "~11.2.1",
     "@angular/platform-browser-dynamic": "~11.2.1",
     "@angular/router": "~11.2.1",
-    "electron-squirrel-startup": "^1.0.0",
     "mime-types": "^2.1.30",
     "ng-zorro-antd": "^11.1.0",
     "rxjs": "~6.6.0",
@@ -37,16 +32,10 @@
     "@angular-devkit/build-angular": "~0.1102.1",
     "@angular/cli": "~11.2.1",
     "@angular/compiler-cli": "~11.2.1",
-    "@electron-forge/cli": "^6.0.0-beta.54",
-    "@electron-forge/maker-deb": "^6.0.0-beta.54",
-    "@electron-forge/maker-rpm": "^6.0.0-beta.54",
-    "@electron-forge/maker-squirrel": "^6.0.0-beta.54",
-    "@electron-forge/maker-zip": "^6.0.0-beta.54",
     "@types/jasmine": "~3.6.0",
     "@types/mime-types": "^2.1.0",
     "@types/node": "^14.14.37",
     "codelyzer": "^6.0.0",
-    "electron": "^12.0.2",
     "jasmine-core": "~3.6.0",
     "jasmine-spec-reporter": "~5.0.0",
     "karma": "~6.1.0",
@@ -58,32 +47,5 @@
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
     "typescript": "~4.1.2"
-  },
-  "config": {
-    "forge": {
-      "packagerConfig": {},
-      "makers": [
-        {
-          "name": "@electron-forge/maker-squirrel",
-          "config": {
-            "name": "icfs_ui"
-          }
-        },
-        {
-          "name": "@electron-forge/maker-zip",
-          "platforms": [
-            "darwin"
-          ]
-        },
-        {
-          "name": "@electron-forge/maker-deb",
-          "config": {}
-        },
-        {
-          "name": "@electron-forge/maker-rpm",
-          "config": {}
-        }
-      ]
-    }
   }
 }
