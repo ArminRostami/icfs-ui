@@ -20,11 +20,9 @@ export class UploadComponent implements OnInit {
     if (this.fileInfo === null) {
       return;
     }
-    this.fileService
-      .uploadFile(this.fileInfo, this.descText)
-      .subscribe((resp) => {
-        console.log(resp);
-      });
+    this.fileService.uploadFile(this.fileInfo, this.descText).subscribe((resp) => {
+      console.log(resp);
+    });
   }
 
   ngOnInit() {}
@@ -34,14 +32,8 @@ export class UploadComponent implements OnInit {
     if (!this.fileInfo) {
       return;
     }
-    this.fileInfo.type = Ftypes.getRealType(
-      this.fileInfo.extension,
-      this.fileInfo.type
-    );
-    this.tagColor = Icons.getIcon(
-      this.fileInfo.extension,
-      this.fileInfo.type
-    ).color;
+    this.fileInfo.type = Ftypes.getRealType(this.fileInfo.extension, this.fileInfo.type);
+    this.tagColor = Icons.getIcon(this.fileInfo.extension, this.fileInfo.type).color;
   }
 
   onClose() {

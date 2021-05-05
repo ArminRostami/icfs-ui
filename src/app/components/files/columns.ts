@@ -2,15 +2,14 @@ import { fileTypes } from '@icfs/components/files/file-types';
 import { NzTableFilterFn, NzTableFilterList, NzTableSortFn, NzTableSortOrder } from 'ng-zorro-antd/table';
 import { Content } from '@icfs/types/content';
 
-
 export interface Cols {
-  type: ColumnItem
-  name: ColumnItem
-  date: ColumnItem
-  size: ColumnItem
-  rate: ColumnItem
-  downloads: ColumnItem
-  actions: ColumnItem
+  type: ColumnItem;
+  name: ColumnItem;
+  date: ColumnItem;
+  size: ColumnItem;
+  rate: ColumnItem;
+  downloads: ColumnItem;
+  actions: ColumnItem;
 }
 
 interface ColumnItem {
@@ -41,9 +40,8 @@ export const tableColumns: Cols = {
       { text: 'Archive', value: fileTypes.Archive },
       { text: 'Application', value: fileTypes.Application },
     ],
-    filterFn: (list: string[], item: Content) => list.some(cat => item.file_type.indexOf(cat) !== -1),
-    filterMultiple: true
-
+    filterFn: (list: string[], item: Content) => list.some((cat) => item.file_type.indexOf(cat) !== -1),
+    filterMultiple: true,
   },
   name: {
     name: 'Name',
@@ -76,10 +74,9 @@ export const tableColumns: Cols = {
     sortDirections: ['ascend', 'descend', null],
   },
   actions: {
-    name: "Actions",
+    name: 'Actions',
     sortOrder: null,
     sortFn: null,
     sortDirections: [null],
-  }
-
+  },
 };

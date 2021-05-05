@@ -46,7 +46,6 @@ import { MyfilesComponent } from './components/myfiles/myfiles.component';
 
 registerLocaleData(en);
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -57,7 +56,7 @@ registerLocaleData(en);
     HomeComponent,
     UploadComponent,
     ExploreComponent,
-    MyfilesComponent
+    MyfilesComponent,
   ],
   imports: [
     BrowserModule,
@@ -86,9 +85,9 @@ registerLocaleData(en);
     NzRateModule,
     NzModalModule,
     NzCollapseModule,
-    NzTagModule
+    NzTagModule,
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

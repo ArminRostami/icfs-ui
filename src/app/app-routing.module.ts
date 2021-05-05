@@ -10,13 +10,15 @@ import { ExploreComponent } from './components/explore/explore.component';
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login' },
   {
-    path: '', component: LayoutComponent, children: [
+    path: '',
+    component: LayoutComponent,
+    children: [
       { path: 'home', component: HomeComponent },
 
       { path: 'explore', component: ExploreComponent },
       { path: 'myfiles', component: MyfilesComponent },
       { path: 'explore/:filter', component: ExploreComponent },
-    ]
+    ],
   },
   { path: 'login', component: LoginComponent },
   { path: '**', component: PageNotFoundComponent },
@@ -24,6 +26,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

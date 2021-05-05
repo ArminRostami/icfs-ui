@@ -5,26 +5,24 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-home',
   templateUrl: './layout.component.html',
-  styleUrls: ['./layout.component.less']
+  styleUrls: ['./layout.component.less'],
 })
 export class LayoutComponent implements OnInit {
   isCollapsed = false;
-  user!: user
+  user!: user;
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService) {}
 
   // TODO: implement log out
   ngOnInit(): void {
-
     if (this.userService.userExists()) {
-      this.user = this.userService.activeUser
-      return
+      this.user = this.userService.activeUser;
+      return;
     }
 
-    this.userService.fetchUser().subscribe(u => {
-      this.user = u
-      console.log("user", this.user);
-    })
+    this.userService.fetchUser().subscribe((u) => {
+      this.user = u;
+      console.log('user', this.user);
+    });
   }
-
 }

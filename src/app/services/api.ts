@@ -1,4 +1,4 @@
-const base = "http://127.0.0.1:8000"
+const base = 'http://127.0.0.1:8000';
 
 export const API = {
   users: `${base}/users`,
@@ -7,5 +7,5 @@ export const API = {
   getComments: `${base}/contents/comment`,
   textSearch: `${base}/contents/search`,
   upload: `${base}/contents`,
-  getUserFiles: `${base}/contents/user`
-}
+  getUserFiles: `${base}/contents/user`,
+};

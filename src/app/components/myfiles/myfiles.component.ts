@@ -8,32 +8,31 @@ import { BehaviorSubject } from 'rxjs';
 @Component({
   selector: 'app-myfiles',
   templateUrl: './myfiles.component.html',
-  styleUrls: ['./myfiles.component.less']
+  styleUrls: ['./myfiles.component.less'],
 })
 export class MyfilesComponent implements OnInit {
-
-  constructor(private userService: UserService, private fileService: FileService) { }
-  activeUser!: user
+  constructor(private userService: UserService, private fileService: FileService) {}
+  activeUser!: user;
   dataStream = new BehaviorSubject<Content[]>([]);
-  dataStream$ = this.dataStream.asObservable()
+  dataStream$ = this.dataStream.asObservable();
 
   ngOnInit(): void {
-    this.getUser()
-    this.getFiles()
+    this.getUser();
+    this.getFiles();
   }
   getUser() {
     if (this.userService.userExists()) {
-      this.activeUser = this.userService.activeUser
-      return
+      this.activeUser = this.userService.activeUser;
+      return;
     }
-    this.userService.fetchUser().subscribe(user => { this.activeUser = user })
+    this.userService.fetchUser().subscribe((user) => {
+      this.activeUser = user;
+    });
   }
   getFiles() {
-    this.fileService.getUserFiles()
-      .subscribe(contents => {
-        this.dataStream.next(contents)
-        console.log("contents are", contents)
-      })
+    this.fileService.getUserFiles().subscribe((contents) => {
+      this.dataStream.next(contents);
+      console.log('contents are', contents);
+    });
   }
-
 }

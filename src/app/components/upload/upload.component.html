@@ -1,41 +1,58 @@
-<nz-card style="width:300px;">
-  <nz-card-meta nzTitle="Upload" [nzAvatar]="avatarTemplate"
-    nzDescription="Upload files to gain credit. You also gain bonus credit for every download on your files.">
+<nz-card style="width: 300px">
+  <nz-card-meta
+    nzTitle="Upload"
+    [nzAvatar]="avatarTemplate"
+    nzDescription="Upload files to gain credit. You also gain bonus credit for every download on your files."
+  >
   </nz-card-meta>
 
   <nz-divider></nz-divider>
 
   <div nz-row nzJustify="center">
     <button (click)="openDialog()" nz-button nzType="primary" nzSize="large" nzShape="round">
-      <i nz-icon nzType="inbox"></i>Select a file</button>
+      <i nz-icon nzType="inbox"></i>Select a file
+    </button>
   </div>
 
   <div nz-row>
-    <nz-tag style="margin-top: 5px;" *ngIf="fileInfo !== null" [nzColor]="tagColor" nzMode="closeable"
-      (nzOnClose)="onClose()">
-      {{fileInfo.name+'.'+fileInfo.extension |
-      slice:0:40 }}
+    <nz-tag
+      style="margin-top: 5px"
+      *ngIf="fileInfo !== null"
+      [nzColor]="tagColor"
+      nzMode="closeable"
+      (nzOnClose)="onClose()"
+    >
+      {{ fileInfo.name + "." + fileInfo.extension | slice: 0:40 }}
     </nz-tag>
   </div>
 
   <div nz-row>
     <nz-collapse nzGhost>
       <nz-collapse-panel nzHeader="Description:" [nzDisabled]="fileInfo === null" [nzActive]="'true'">
-        <textarea [disabled]="fileInfo === null" [(ngModel)]="descText" nz-input
-          placeholder="Enter a brief description for this file" [nzAutosize]="{ minRows: 3, maxRows: 6 }"></textarea>
+        <textarea
+          [disabled]="fileInfo === null"
+          [(ngModel)]="descText"
+          nz-input
+          placeholder="Enter a brief description for this file"
+          [nzAutosize]="{ minRows: 3, maxRows: 6 }"
+        ></textarea>
       </nz-collapse-panel>
       <div nz-row nzJustify="end">
-        <button style="margin-right: 16px;" nz-button [nzType]="'primary'" (click)="handleUpload()"
-          [disabled]="fileInfo === null || descText.length === 0">
-          <i nz-icon nzType="upload" nzTheme="outline" style="font-size: 18px;"></i>
+        <button
+          style="margin-right: 16px"
+          nz-button
+          [nzType]="'primary'"
+          (click)="handleUpload()"
+          [disabled]="fileInfo === null || descText.length === 0"
+        >
+          <i nz-icon nzType="upload" nzTheme="outline" style="font-size: 18px"></i>
           Upload File
         </button>
       </div>
     </nz-collapse>
   </div>
-
 </nz-card>
 
 <ng-template #avatarTemplate>
-  <i nz-icon nzType="file-add" nzTheme="twotone" style="font-size: 24px;"></i>
+  <i nz-icon nzType="file-add" nzTheme="twotone" style="font-size: 24px"></i>
 </ng-template>

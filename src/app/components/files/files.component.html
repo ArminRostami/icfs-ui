@@ -1,51 +1,95 @@
-<nz-table #filesTable [nzData]="displayData" [nzPageSize]="pageSize" nzTableLayout="fixed" [nzScroll]="{ y: '370px' }"
-  nzLoading={{loading}}>
+<nz-table
+  #filesTable
+  [nzData]="displayData"
+  [nzPageSize]="pageSize"
+  nzTableLayout="fixed"
+  [nzScroll]="{ y: '370px' }"
+  nzLoading="{{ loading }}"
+>
   <thead>
     <tr>
-      <th nzWidth=" 35px">
-      </th>
+      <th nzWidth=" 35px"></th>
       <!-- TYPE -->
-      <th [nzSortOrder]="c.type.sortOrder" [nzSortFn]="c.type.sortFn" [nzSortDirections]="c.type.sortDirections"
-        [nzFilterMultiple]="c.type.filterMultiple!" [nzFilters]="c.type.listOfFilter!" [nzFilterFn]="c.type.filterFn!">
+      <th
+        [nzSortOrder]="c.type.sortOrder"
+        [nzSortFn]="c.type.sortFn"
+        [nzSortDirections]="c.type.sortDirections"
+        [nzFilterMultiple]="c.type.filterMultiple!"
+        [nzFilters]="c.type.listOfFilter!"
+        [nzFilterFn]="c.type.filterFn!"
+      >
         {{ c.type.name }}
       </th>
       <!-- NAME -->
-      <th nzCustomFilter colspan="2" [nzSortOrder]="c.name.sortOrder" [nzSortFn]="c.name.sortFn"
-        [nzSortDirections]="c.name.sortDirections">
+      <th
+        nzCustomFilter
+        colspan="2"
+        [nzSortOrder]="c.name.sortOrder"
+        [nzSortFn]="c.name.sortFn"
+        [nzSortDirections]="c.name.sortDirections"
+      >
         {{ c.name.name }}
-        <nz-filter-trigger [(nzVisible)]="textSearchVisible" [nzActive]="textSearchValue.length > 0"
-          [nzDropdownMenu]="menuName">
+        <nz-filter-trigger
+          [(nzVisible)]="textSearchVisible"
+          [nzActive]="textSearchValue.length > 0"
+          [nzDropdownMenu]="menuName"
+        >
           <i nz-icon nzType="search"></i>
         </nz-filter-trigger>
       </th>
       <!-- DATE -->
-      <th [nzSortOrder]="c.date.sortOrder" [nzSortFn]="c.date.sortFn" [nzSortDirections]="c.date.sortDirections">
+      <th
+        [nzSortOrder]="c.date.sortOrder"
+        [nzSortFn]="c.date.sortFn"
+        [nzSortDirections]="c.date.sortDirections"
+      >
         {{ c.date.name }}
       </th>
       <!-- SIZE -->
-      <th nzCustomFilter [nzSortOrder]="c.size.sortOrder" [nzSortFn]="c.size.sortFn"
-        [nzSortDirections]="c.size.sortDirections">
+      <th
+        nzCustomFilter
+        [nzSortOrder]="c.size.sortOrder"
+        [nzSortFn]="c.size.sortFn"
+        [nzSortDirections]="c.size.sortDirections"
+      >
         {{ c.size.name }}
-        <nz-filter-trigger [(nzVisible)]="sizeFilterVisible" [nzActive]="NotInfinite(ltSize)||NotInfinite(gtSize)"
-          [nzDropdownMenu]="menuSize">
+        <nz-filter-trigger
+          [(nzVisible)]="sizeFilterVisible"
+          [nzActive]="NotInfinite(ltSize) || NotInfinite(gtSize)"
+          [nzDropdownMenu]="menuSize"
+        >
           <i nz-icon nzType="filter" nzTheme="fill"></i>
         </nz-filter-trigger>
       </th>
       <!-- RATE -->
-      <th nzCustomFilter [nzSortOrder]="c.rate.sortOrder" [nzSortFn]="c.rate.sortFn"
-        [nzSortDirections]="c.rate.sortDirections">
+      <th
+        nzCustomFilter
+        [nzSortOrder]="c.rate.sortOrder"
+        [nzSortFn]="c.rate.sortFn"
+        [nzSortDirections]="c.rate.sortDirections"
+      >
         {{ c.rate.name }}
-        <nz-filter-trigger [(nzVisible)]="rateFilterVisible" [nzActive]="ltRate<5||gtRate>0"
-          [nzDropdownMenu]="menuRate">
+        <nz-filter-trigger
+          [(nzVisible)]="rateFilterVisible"
+          [nzActive]="ltRate < 5 || gtRate > 0"
+          [nzDropdownMenu]="menuRate"
+        >
           <i nz-icon nzType="filter" nzTheme="fill"></i>
         </nz-filter-trigger>
       </th>
       <!-- DOWNLOADS -->
-      <th nzCustomFilter [nzSortOrder]="c.downloads.sortOrder" [nzSortFn]="c.downloads.sortFn"
-        [nzSortDirections]="c.downloads.sortDirections">
+      <th
+        nzCustomFilter
+        [nzSortOrder]="c.downloads.sortOrder"
+        [nzSortFn]="c.downloads.sortFn"
+        [nzSortDirections]="c.downloads.sortDirections"
+      >
         {{ c.downloads.name }}
-        <nz-filter-trigger [(nzVisible)]="dlsFilterVisible" [nzActive]="NotInfinite(ltDls)||gtDls>0"
-          [nzDropdownMenu]="menuDls">
+        <nz-filter-trigger
+          [(nzVisible)]="dlsFilterVisible"
+          [nzActive]="NotInfinite(ltDls) || gtDls > 0"
+          [nzDropdownMenu]="menuDls"
+        >
           <i nz-icon nzType="filter" nzTheme="fill"></i>
         </nz-filter-trigger>
       </th>
@@ -58,33 +102,48 @@
         <td [nzExpand]="expandSet.has(file.id)" (nzExpandChange)="onExpandChange(file.id, $event)"></td>
         <!-- TYPE -->
         <td nzAlign="center">
-          <i nz-icon nzType={{getIcon(file)?.name}} nzTwotoneColor={{getIcon(file)?.color}} nzTheme="twotone"
-            style="font-size: 24px;"></i>
+          <i
+            nz-icon
+            nzType="{{ getIcon(file)?.name }}"
+            nzTwotoneColor="{{ getIcon(file)?.color }}"
+            nzTheme="twotone"
+            style="font-size: 24px"
+          ></i>
         </td>
         <!-- NAME -->
         <td colspan="2" nz-tooltip>
           {{ file.name + "." + file.extension }}
         </td>
         <!-- DATE -->
-        <td>{{ file.uploaded_at.toLocaleDateString()}}</td>
+        <td>
+          {{ file.uploaded_at.toLocaleDateString() }}
+        </td>
         <!-- SIZE -->
         <td>{{ file.size }} MB</td>
         <!-- RATE -->
-        <td nzAlign="center">{{ file.rating }}
+        <td nzAlign="center">
+          {{ file.rating }}
           <i nz-icon nzType="star" nzTheme="twotone" nzTwotoneColor="#FFD700"></i>
         </td>
         <!-- DOWNLOADS -->
-        <td nzAlign="center">{{ file.downloads }}
+        <td nzAlign="center">
+          {{ file.downloads }}
           <i nz-icon nzType="down-square" nzTheme="twotone" nzTwotoneColor="#32CD32"></i>
         </td>
       </tr>
       <!-- Description and comments -->
       <tr [nzExpand]="expandSet.has(file.id)">
-        <div style="padding:18px;" nz-row nzJustify="space-between">
-          <span nz-col style="font-weight: bold;">{{ file.description }}</span>
+        <div style="padding: 18px" nz-row nzJustify="space-between">
+          <span nz-col style="font-weight: bold">{{ file.description }}</span>
           <button nz-button [nzType]="'primary'" (click)="showModal(file)">
-            <i nz-col nz-icon nzType="{{editMode?'delete':'download'}}" nzTheme="outline" style="font-size: 18px;"></i>
-            {{editMode?'delete':'download'}}
+            <i
+              nz-col
+              nz-icon
+              nzType="{{ editMode ? 'delete' : 'download' }}"
+              nzTheme="outline"
+              style="font-size: 18px"
+            ></i>
+            {{ editMode ? "delete" : "download" }}
           </button>
         </div>
 
@@ -95,11 +154,13 @@
               <nz-comment [nzAuthor]="comment.username" [nzDatetime]="getTime(comment.comment_time)">
                 <nz-avatar nz-comment-avatar nzIcon="user"></nz-avatar>
                 <nz-comment-content>
-                  <p>{{ comment.comment_text }}</p>
+                  <p>
+                    {{ comment.comment_text }}
+                  </p>
                 </nz-comment-content>
               </nz-comment>
             </div>
-            <div nz-col style="padding: 8px;">
+            <div nz-col style="padding: 8px">
               <nz-rate [ngModel]="comment.rating" nzDisabled></nz-rate>
             </div>
           </div>
@@ -120,8 +181,13 @@
                   <nz-rate [(ngModel)]="userRating" nzAllowHalf></nz-rate>
                 </span>
                 <nz-form-item>
-                  <button nz-button nzType="primary" [nzLoading]="submitting"
-                    [disabled]="commentText.length===0 || userRating===0" (click)="submitReview()">
+                  <button
+                    nz-button
+                    nzType="primary"
+                    [nzLoading]="submitting"
+                    [disabled]="commentText.length === 0 || userRating === 0"
+                    (click)="submitReview()"
+                  >
                     Submit
                   </button>
                 </nz-form-item>
@@ -129,7 +195,6 @@
             </nz-comment-content>
           </nz-comment>
         </div>
-
       </tr>
     </ng-container>
   </tbody>

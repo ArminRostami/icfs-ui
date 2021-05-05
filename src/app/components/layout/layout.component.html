@@ -1,13 +1,19 @@
 <nz-layout class="app-layout">
-  <nz-sider class="menu-sidebar" nzCollapsible nzWidth="256px" nzBreakpoint="md" [(nzCollapsed)]="isCollapsed"
-    [nzTrigger]="null">
+  <nz-sider
+    class="menu-sidebar"
+    nzCollapsible
+    nzWidth="256px"
+    nzBreakpoint="md"
+    [(nzCollapsed)]="isCollapsed"
+    [nzTrigger]="null"
+  >
     <div class="sidebar-logo">
-      <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo">
+      <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo" />
       <h1>ICFS</h1>
     </div>
 
     <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
-      <li *ngIf="user!=undefined" nz-submenu nzIcon="user" nzTitle={{user.username}}></li>
+      <li *ngIf="user != undefined" nz-submenu nzIcon="user" nzTitle="{{ user.username }}"></li>
 
       <li nz-submenu nzOpen nzTitle="Dashboard" nzIcon="dashboard">
         <ul>
@@ -42,5 +48,4 @@
       </div>
     </nz-content>
   </nz-layout>
-
 </nz-layout>

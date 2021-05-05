@@ -29,14 +29,15 @@ import {
   BookTwoTone,
   ContainerTwoTone,
   InfoCircleOutline,
-  DeleteOutline
+  DeleteOutline,
 } from '@ant-design/icons-angular/icons';
 
 const icons = [
   MenuFoldOutline,
   MenuUnfoldOutline,
   DashboardOutline,
-  FormOutline, UserOutline,
+  FormOutline,
+  UserOutline,
   LockOutline,
   InboxOutline,
   UploadOutline,
@@ -60,17 +61,12 @@ const icons = [
   BookTwoTone,
   ContainerTwoTone,
   InfoCircleOutline,
-  DeleteOutline
-
-
+  DeleteOutline,
 ];
 
 @NgModule({
   imports: [NzIconModule],
   exports: [NzIconModule],
-  providers: [
-    { provide: NZ_ICONS, useValue: icons }
-  ]
+  providers: [{ provide: NZ_ICONS, useValue: icons }],
 })
-export class IconsProviderModule {
-}
+export class IconsProviderModule {}

@@ -1,14 +1,20 @@
 <div class="center">
   <div nz-row>
     <div nz-col>
-      <nz-card style="width: 100%;" nzTitle="Welcome to ICFS!">
+      <nz-card style="width: 100%" nzTitle="Welcome to ICFS!">
         <nz-card-tab>
           <nz-tabset nzSize="large" [(nzSelectedIndex)]="tabIndex">
             <nz-tab nzTitle="login"></nz-tab>
             <nz-tab nzTitle="register"></nz-tab>
           </nz-tabset>
         </nz-card-tab>
-        <form *ngIf="tabIndex==0" nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
+        <form
+          *ngIf="tabIndex == 0"
+          nz-form
+          [formGroup]="validateForm"
+          class="login-form"
+          (ngSubmit)="submitForm()"
+        >
           <nz-form-item>
             <nz-form-control nzErrorTip="Please input your username!">
               <nz-input-group nzPrefixIcon="user">

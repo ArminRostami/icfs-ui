@@ -6,42 +6,37 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.less']
+  styleUrls: ['./login.component.less'],
 })
 export class LoginComponent implements OnInit {
   validateForm!: FormGroup;
-  tabIndex = 0
+  tabIndex = 0;
 
-  constructor(
-    private fb: FormBuilder,
-    private userService: UserService,
-    private router: Router
-  ) { }
+  constructor(private fb: FormBuilder, private userService: UserService, private router: Router) {}
 
   ngOnInit(): void {
-
     if (this.userService.userExists()) {
-      this.router.navigateByUrl("home")
-      return
+      this.router.navigateByUrl('home');
+      return;
     }
 
-    this.userService.fetchUser().subscribe(u => {
-      this.router.navigateByUrl("home")
-    })
-    this.setValidators()
+    this.userService.fetchUser().subscribe((u) => {
+      this.router.navigateByUrl('home');
+    });
+    this.setValidators();
   }
 
   setValidators() {
     this.validateForm = this.fb.group({
       userName: [null, [Validators.required]],
       password: [null, [Validators.required]],
-      remember: [true]
+      remember: [true],
     });
   }
 
   submitForm(): void {
-    const username = this.validateForm.controls["userName"]
-    const password = this.validateForm.controls["password"]
+    const username = this.validateForm.controls['userName'];
+    const password = this.validateForm.controls['password'];
 
     for (const i in this.validateForm.controls) {
       this.validateForm.controls[i].markAsDirty();
@@ -49,13 +44,13 @@ export class LoginComponent implements OnInit {
     }
 
     if (username.valid && password.valid) {
-      console.log(username.value)
-      console.log(password.value)
-      this.userService.login(username.value, password.value).subscribe(userResp => {
+      console.log(username.value);
+      console.log(password.value);
+      this.userService.login(username.value, password.value).subscribe((userResp) => {
         if (userResp.body != null && userResp.ok) {
-          this.router.navigateByUrl("home")
+          this.router.navigateByUrl('home');
         }
-      })
+      });
     }
   }
 }
