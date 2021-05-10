@@ -12,7 +12,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class MyfilesComponent implements OnInit {
   constructor(private userService: UserService, private fileService: FileService) {}
-  activeUser!: user;
+  activeUser: user | null = null;
   dataStream = new BehaviorSubject<Content[]>([]);
   dataStream$ = this.dataStream.asObservable();
 
@@ -25,8 +25,8 @@ export class MyfilesComponent implements OnInit {
       this.activeUser = this.userService.activeUser;
       return;
     }
-    this.userService.fetchUser().subscribe((user) => {
-      this.activeUser = user;
+    this.userService.fetchUser().subscribe((resp) => {
+      this.activeUser = resp.body;
     });
   }
   getFiles() {

@@ -13,7 +13,7 @@ import { BehaviorSubject } from 'rxjs';
 export class ExploreComponent implements OnInit {
   constructor(private userService: UserService, private fileService: FileService) {}
 
-  activeUser!: user;
+  activeUser: user | null = null;
   dataStream = new BehaviorSubject<Content[]>([]);
   dataStream$ = this.dataStream.asObservable();
 
@@ -27,8 +27,10 @@ export class ExploreComponent implements OnInit {
       this.activeUser = this.userService.activeUser;
       return;
     }
-    this.userService.fetchUser().subscribe((user) => {
-      this.activeUser = user;
+    this.userService.fetchUser().subscribe((_) => {
+      if (this.userService.userExists()) {
+        this.activeUser = this.userService.activeUser;
+      }
     });
   }
 

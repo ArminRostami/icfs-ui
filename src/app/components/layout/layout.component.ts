@@ -9,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LayoutComponent implements OnInit {
   isCollapsed = false;
-  user!: user;
+  user: user | null = null;
 
   constructor(private userService: UserService) {}
 
@@ -20,8 +20,8 @@ export class LayoutComponent implements OnInit {
       return;
     }
 
-    this.userService.fetchUser().subscribe((u) => {
-      this.user = u;
+    this.userService.fetchUser().subscribe((resp) => {
+      this.user = resp.body;
       console.log('user', this.user);
     });
   }

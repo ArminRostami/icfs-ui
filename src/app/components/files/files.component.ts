@@ -23,7 +23,7 @@ export class FilesComponent implements OnInit, OnDestroy {
     this.c = tableColumns;
   }
 
-  @Input() activeUser!: user;
+  @Input() activeUser: user | null = null;
   @Input() fileStream!: Observable<Content[]>;
   @Input() editMode = false;
 
@@ -120,11 +120,14 @@ export class FilesComponent implements OnInit, OnDestroy {
   }
 
   showDownloadModal(file: Content) {
+    if (this.activeUser == null) {
+      return;
+    }
     this.modal.confirm({
       nzTitle: `<i>Do you want to get ${file.name}?</i>`,
       nzContent: `<p>required credit: ${file.size}</p>
-      <p>current credit: ${this.activeUser.credit}</p>
-      <p>new credit: ${this.activeUser.credit - file.size}</p>`,
+        <p>current credit: ${this.activeUser.credit}</p>
+        <p>new credit: ${this.activeUser.credit - file.size}</p>`,
       nzOnOk: () => {
         // TODO: get file from server
         console.log(file.id);
@@ -133,6 +136,9 @@ export class FilesComponent implements OnInit, OnDestroy {
   }
 
   showDeleteModal(file: Content) {
+    if (this.activeUser == null) {
+      return;
+    }
     this.modal.confirm({
       nzTitle: `<i>Are you sure you want to delete ${file.name}?</i>`,
       nzContent: `<p>you will lose: ${file.size} credit.</p>

@@ -15,14 +15,6 @@ export class LoginComponent implements OnInit {
   constructor(private fb: FormBuilder, private userService: UserService, private router: Router) {}
 
   ngOnInit(): void {
-    if (this.userService.userExists()) {
-      this.router.navigateByUrl('home');
-      return;
-    }
-
-    this.userService.fetchUser().subscribe((u) => {
-      this.router.navigateByUrl('home');
-    });
     this.setValidators();
   }
 

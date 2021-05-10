@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { API } from './api';
 import { user } from '@icfs/types/user';
 import { Injectable } from '@angular/core';
@@ -11,18 +11,27 @@ const JWT = 'jwt';
   providedIn: 'root',
 })
 export class UserService {
-  private _activeUser!: user;
+  private _activeUser: user | null = null;
 
   constructor(private http: HttpClient) {}
 
+  // getUser(): Observable<user> {
+  //   if (this.activeUser != null) return of(this.activeUser);
+
+  // }
+
   userExists(): boolean {
-    return this.activeUser != undefined;
+    return this.activeUser != null;
   }
 
-  fetchUser(): Observable<user> {
+  fetchUser(): Observable<HttpResponse<user>> {
     return this.http
-      .get<user>(API.users, { withCredentials: true })
-      .pipe(tap((u) => (this._activeUser = u)));
+      .get<user>(API.users, { observe: 'response', withCredentials: true })
+      .pipe(
+        tap((resp) => {
+          if (resp.body != null && resp.ok) this._activeUser = resp.body;
+        })
+      );
   }
 
   login(user: string, pass: string): Observable<HttpResponse<user>> {
@@ -39,7 +48,7 @@ export class UserService {
       );
   }
 
-  get activeUser(): user {
+  get activeUser(): user | null {
     return this._activeUser;
   }
 }
