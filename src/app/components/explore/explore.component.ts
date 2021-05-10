@@ -1,43 +1,47 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FileService } from '@icfs/services/file.service';
 import { UserService } from '@icfs/services/user.service';
 import { Content } from '@icfs/types/content';
-import { user } from '@icfs/types/user';
-import { BehaviorSubject } from 'rxjs';
+import { User } from '@icfs/types/user';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-explore',
   templateUrl: './explore.component.html',
   styleUrls: ['./explore.component.less'],
 })
-export class ExploreComponent implements OnInit {
-  constructor(private userService: UserService, private fileService: FileService) {}
+export class ExploreComponent implements OnInit, OnDestroy {
+  constructor(private us: UserService, private fileService: FileService) {}
 
-  activeUser: user | null = null;
+  activeUser = new User();
   dataStream = new BehaviorSubject<Content[]>([]);
   dataStream$ = this.dataStream.asObservable();
+  private unsub = new Subject();
 
   ngOnInit(): void {
     this.getUser();
     this.getFiles();
   }
 
+  ngOnDestroy() {
+    this.unsub.next();
+    this.unsub.complete();
+  }
+
   getUser() {
-    if (this.userService.userExists()) {
-      this.activeUser = this.userService.activeUser;
-      return;
-    }
-    this.userService.fetchUser().subscribe((_) => {
-      if (this.userService.userExists()) {
-        this.activeUser = this.userService.activeUser;
-      }
+    this.us.getUser$.pipe(takeUntil(this.unsub)).subscribe((user) => {
+      this.activeUser = user;
     });
   }
 
   getFiles() {
-    this.fileService.getFiles().subscribe((contents) => {
-      this.dataStream.next(contents);
-      console.log(contents);
-    });
+    this.fileService
+      .getFiles()
+      .pipe(takeUntil(this.unsub))
+      .subscribe((contents) => {
+        this.dataStream.next(contents);
+        console.log(contents);
+      });
   }
 }

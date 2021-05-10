@@ -7,7 +7,8 @@ import { Observable, Subject } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { formatDistance } from 'date-fns';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { user } from '@icfs/types/user';
+import { User } from '@icfs/types/user';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-files',
@@ -23,7 +24,7 @@ export class FilesComponent implements OnInit, OnDestroy {
     this.c = tableColumns;
   }
 
-  @Input() activeUser: user | null = null;
+  @Input() activeUser = new User();
   @Input() fileStream!: Observable<Content[]>;
   @Input() editMode = false;
 
@@ -53,12 +54,12 @@ export class FilesComponent implements OnInit, OnDestroy {
   userRating = 0;
 
   expandSet = new Set<string>();
-  unsub$ = new Subject();
+  private unsub = new Subject();
 
   c: Cols;
 
   ngOnInit() {
-    this.fileStream.subscribe((files) => {
+    this.fileStream.pipe(takeUntil(this.unsub)).subscribe((files) => {
       this.fileList = files;
       this.displayData = files;
       this.loading = false;
@@ -75,8 +76,8 @@ export class FilesComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.reset();
     this.resetTypeFilter();
-    this.unsub$.next();
-    this.unsub$.complete();
+    this.unsub.next();
+    this.unsub.complete();
   }
 
   getIcon(file: Content) {
@@ -96,13 +97,16 @@ export class FilesComponent implements OnInit, OnDestroy {
   }
 
   getComments(content_id: string) {
-    this.fileService.getComments(content_id).subscribe((fileComments) => {
-      const idx = this.fileList.findIndex((content) => content.id == content_id);
-      if (idx == -1) {
-        return;
-      }
-      this.fileList[idx].comments = fileComments;
-    });
+    this.fileService
+      .getComments(content_id)
+      .pipe(takeUntil(this.unsub))
+      .subscribe((fileComments) => {
+        const idx = this.fileList.findIndex((content) => content.id == content_id);
+        if (idx == -1) {
+          return;
+        }
+        this.fileList[idx].comments = fileComments;
+      });
   }
 
   submitReview() {

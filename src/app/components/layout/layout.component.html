@@ -9,12 +9,10 @@
   >
     <div class="sidebar-logo">
       <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo" />
-      <h1>ICFS</h1>
+      <h1>ICFS {{ activeUser.username }}</h1>
     </div>
 
     <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
-      <li *ngIf="user != undefined" nz-submenu nzIcon="user" nzTitle="{{ user.username }}"></li>
-
       <li nz-submenu nzOpen nzTitle="Dashboard" nzIcon="dashboard">
         <ul>
           <li nz-menu-item nzMatchRouter="true">
@@ -27,13 +25,12 @@
             <a routerLink="/myfiles">My Files</a>
           </li>
           <li nz-menu-item nzMatchRouter="true">
-            <a routerLink="/login">Logout</a>
+            <a routerLink="/auth/logout">Logout</a>
           </li>
         </ul>
       </li>
     </ul>
   </nz-sider>
-
   <nz-layout>
     <nz-header>
       <div class="app-header">

@@ -20,7 +20,8 @@ const routes: Routes = [
       { path: 'explore/:filter', component: ExploreComponent },
     ],
   },
-  { path: 'login', component: LoginComponent },
+  { path: 'auth/:mode', component: LoginComponent },
+  { path: 'logout', redirectTo: 'auth/logout' },
   { path: '**', component: PageNotFoundComponent },
 ];
 
