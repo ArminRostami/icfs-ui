@@ -1,45 +1,55 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FileService } from '@icfs/services/file.service';
-import { fileData } from '@icfs/types/fileData';
-import { NgZone } from '@angular/core';
+import { FileData } from '@icfs/types/fileData';
 import { Icons } from '../files/icons';
-import { Ftypes } from '../files/file-types';
+import { FileTypes } from '../files/file-types';
+import { NzUploadFile } from 'ng-zorro-antd/upload';
+import { IpfsService } from '@icfs/services/ipfs.service';
 
 @Component({
   selector: 'app-upload',
   templateUrl: './upload.component.html',
 })
-export class UploadComponent implements OnInit {
-  constructor(private fileService: FileService, private zone: NgZone) {}
+export class UploadComponent {
+  constructor(private fileService: FileService, private ipfsService: IpfsService) {}
 
   tagColor = '#1890ff';
-  descText: string = '';
-  fileInfo: fileData | null = null;
+  descText = '';
+  fileInfo = new FileData();
+  fileObj: File | null = null;
+
+  beforeUpload = (file: NzUploadFile): boolean => {
+    const nameExt = file.name.split('.', 2);
+    this.fileInfo.name = nameExt[0];
+    this.fileInfo.extension = nameExt[1];
+    this.fileInfo.size = file.size || 0;
+    this.fileInfo.type = FileTypes.get(this.fileInfo.extension, file.type || '');
+
+    this.tagColor = Icons.getIcon(this.fileInfo.extension, this.fileInfo.type).color;
+
+    this.fileObj = file as any as File;
+    console.log(this.fileInfo);
+    console.log(this.fileObj);
+
+    return false;
+  };
 
   handleUpload() {
-    if (this.fileInfo === null) {
+    if (!this.fileInfo.size || this.fileObj === null) {
       return;
     }
-    this.fileService.uploadFile(this.fileInfo, this.descText).subscribe((resp) => {
-      console.log(resp);
+    this.ipfsService.saveToIpfs(this.fileObj).subscribe((added) => {
+      console.log(added);
+      this.fileService
+        .uploadFile(this.fileInfo, this.descText, added.cid.toString())
+        .subscribe((resp) => {
+          console.log(resp);
+        });
     });
   }
 
-  ngOnInit() {}
-
-  setFileInfo(info: any) {
-    this.fileInfo = info;
-    if (!this.fileInfo) {
-      return;
-    }
-    this.fileInfo.type = Ftypes.getRealType(this.fileInfo.extension, this.fileInfo.type);
-    this.tagColor = Icons.getIcon(this.fileInfo.extension, this.fileInfo.type).color;
-  }
-
   onClose() {
-    this.fileInfo = null;
+    this.fileInfo = new FileData();
     this.descText = '';
   }
-
-  openDialog() {}
 }

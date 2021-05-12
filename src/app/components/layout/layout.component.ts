@@ -12,13 +12,12 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class LayoutComponent implements OnInit, OnDestroy {
   isCollapsed = false;
-  loggedIn = false;
   activeUser = new User();
   private unsub = new Subject();
 
   constructor(private us: UserService, private router: Router) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.checkUser();
   }
 
@@ -28,29 +27,29 @@ export class LayoutComponent implements OnInit, OnDestroy {
   }
 
   checkUser() {
-    this.us.getUser$.pipe(takeUntil(this.unsub)).subscribe((user) => {
-      console.log('user is ', user);
+    this.us
+      .getUser()
+      .pipe(takeUntil(this.unsub))
+      .subscribe((user) => {
+        if (user.id !== '') {
+          this.activeUser = user;
+          console.log('layout: changed user to ', this.activeUser);
+          return;
+        }
 
-      if (user.id !== '') {
-        this.activeUser = user;
-        console.log('changed user to ', this.activeUser);
-
-        this.loggedIn = true;
-        return;
-      }
-      this.us
-        .fetchUser()
-        .pipe(takeUntil(this.unsub))
-        .subscribe(
-          (resp) => {
-            if (!resp.ok) {
+        this.us
+          .fetchUser()
+          .pipe(takeUntil(this.unsub))
+          .subscribe(
+            (resp) => {
+              if (!resp.ok) {
+                this.router.navigateByUrl('auth/login');
+              }
+            },
+            (_) => {
               this.router.navigateByUrl('auth/login');
             }
-          },
-          (_) => {
-            this.router.navigateByUrl('auth/login');
-          }
-        );
-    });
+          );
+      });
   }
 }

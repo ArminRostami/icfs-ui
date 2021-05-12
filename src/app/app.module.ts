@@ -33,6 +33,7 @@ import { NzRateModule } from 'ng-zorro-antd/rate';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { NzTagModule } from 'ng-zorro-antd/tag';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
 
 // component modules
 import { FilesComponent } from './components/files/files.component';
@@ -86,6 +87,7 @@ registerLocaleData(en);
     NzModalModule,
     NzCollapseModule,
     NzTagModule,
+    NzUploadModule,
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent],

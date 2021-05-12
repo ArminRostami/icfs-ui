@@ -2,7 +2,7 @@ import { Icons } from './../files/icons';
 import { NzTableFilterList } from 'ng-zorro-antd/table';
 import { Component, OnInit } from '@angular/core';
 import { tableColumns } from '@icfs/components/files/columns';
-import ipfsClient from 'ipfs-http-client';
+import { IpfsService } from '@icfs/services/ipfs.service';
 
 @Component({
   selector: 'app-home',
@@ -12,21 +12,18 @@ import ipfsClient from 'ipfs-http-client';
 export class HomeComponent implements OnInit {
   types: NzTableFilterList;
 
-  constructor() {
+  constructor(private ipfsService: IpfsService) {
     this.types = tableColumns.type.listOfFilter!;
   }
 
   ngOnInit() {
-    this.getClient();
+    this.testIPFS();
   }
 
-  getClient() {
-    const client = ipfsClient({ url: '/ip4/127.0.0.1/tcp/5001' });
-
-    client
-      .version()
-      .then((res: any) => console.log('client version:', res))
-      .catch((err: any) => console.log('error while getting client version', err));
+  testIPFS() {
+    this.ipfsService.getVersion().subscribe((v) => {
+      console.log(v);
+    });
   }
 
   getIcon(ftype: string) {

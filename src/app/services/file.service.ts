@@ -4,7 +4,7 @@ import { Content, Comment } from '@icfs/types/content';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { fileData } from '@icfs/types/fileData';
+import { FileData } from '@icfs/types/fileData';
 
 @Injectable({
   providedIn: 'root',
@@ -47,9 +47,9 @@ export class FileService {
     );
   }
 
-  uploadFile(file: fileData, desc: string) {
+  uploadFile(file: FileData, desc: string, cidStr: string) {
     const payload = {
-      path: file.path,
+      cid: cidStr,
       description: desc,
       name: file.name,
       extension: file.extension,

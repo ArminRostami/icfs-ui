@@ -9,15 +9,18 @@
   <nz-divider></nz-divider>
 
   <div nz-row nzJustify="center">
-    <button (click)="openDialog()" nz-button nzType="primary" nzSize="large" nzShape="round">
-      <i nz-icon nzType="inbox"></i>Select a file
-    </button>
+    <nz-upload nzType="drag" [nzMultiple]="false" [nzBeforeUpload]="beforeUpload">
+      <p class="ant-upload-drag-icon">
+        <i nz-icon nzType="inbox"></i>
+      </p>
+      <p class="ant-upload-text">Click or drag file to this area to upload</p>
+    </nz-upload>
   </div>
 
   <div nz-row>
     <nz-tag
       style="margin-top: 5px"
-      *ngIf="fileInfo !== null"
+      *ngIf="fileInfo.size"
       [nzColor]="tagColor"
       nzMode="closeable"
       (nzOnClose)="onClose()"
@@ -28,28 +31,32 @@
 
   <div nz-row>
     <nz-collapse nzGhost>
-      <nz-collapse-panel nzHeader="Description:" [nzDisabled]="fileInfo === null" [nzActive]="'true'">
+      <nz-collapse-panel
+        nzHeader="Description:"
+        [nzDisabled]="!fileInfo.size"
+        [nzActive]="fileInfo.size !== 0"
+      >
         <textarea
-          [disabled]="fileInfo === null"
+          [disabled]="!fileInfo.size"
           [(ngModel)]="descText"
           nz-input
           placeholder="Enter a brief description for this file"
           [nzAutosize]="{ minRows: 3, maxRows: 6 }"
         ></textarea>
       </nz-collapse-panel>
-      <div nz-row nzJustify="end">
-        <button
-          style="margin-right: 16px"
-          nz-button
-          [nzType]="'primary'"
-          (click)="handleUpload()"
-          [disabled]="fileInfo === null || descText.length === 0"
-        >
-          <i nz-icon nzType="upload" nzTheme="outline" style="font-size: 18px"></i>
-          Upload File
-        </button>
-      </div>
     </nz-collapse>
+  </div>
+  <div nz-row nzJustify="center">
+    <button
+      style="margin-right: 16px"
+      nz-button
+      [nzType]="'primary'"
+      (click)="handleUpload()"
+      [disabled]="!fileInfo.size || !descText.length"
+    >
+      <i nz-icon nzType="upload" nzTheme="outline" style="font-size: 18px"></i>
+      Upload to IPFS!
+    </button>
   </div>
 </nz-card>
 

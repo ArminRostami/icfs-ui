@@ -10,18 +10,19 @@ import { tap } from 'rxjs/operators';
 })
 export class UserService {
   private activeUser = new BehaviorSubject<User>(new User());
-  getUser$ = this.activeUser.asObservable();
 
   constructor(private http: HttpClient) {}
 
+  getUser(): Observable<User> {
+    return this.activeUser.asObservable();
+  }
+
   fetchUser(): Observable<HttpResponse<User>> {
-    return this.http
-      .get<User>(API.users, { observe: 'response', withCredentials: true })
-      .pipe(
-        tap((resp) => {
-          if (resp.body != null && resp.ok) this.activeUser.next(resp.body);
-        })
-      );
+    return this.http.get<User>(API.users, { observe: 'response', withCredentials: true }).pipe(
+      tap((resp) => {
+        if (resp.body != null && resp.ok) this.activeUser.next(resp.body);
+      })
+    );
   }
 
   login(user: string, pass: string): Observable<HttpResponse<User>> {

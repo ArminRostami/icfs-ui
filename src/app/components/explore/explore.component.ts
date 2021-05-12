@@ -14,10 +14,10 @@ import { takeUntil } from 'rxjs/operators';
 export class ExploreComponent implements OnInit, OnDestroy {
   constructor(private us: UserService, private fileService: FileService) {}
 
-  activeUser = new User();
-  dataStream = new BehaviorSubject<Content[]>([]);
-  dataStream$ = this.dataStream.asObservable();
   private unsub = new Subject();
+  private dataStream = new BehaviorSubject<Content[]>([]);
+  dataStream$ = this.dataStream.asObservable();
+  activeUser = new User();
 
   ngOnInit(): void {
     this.getUser();
@@ -30,9 +30,12 @@ export class ExploreComponent implements OnInit, OnDestroy {
   }
 
   getUser() {
-    this.us.getUser$.pipe(takeUntil(this.unsub)).subscribe((user) => {
-      this.activeUser = user;
-    });
+    this.us
+      .getUser()
+      .pipe(takeUntil(this.unsub))
+      .subscribe((user) => {
+        this.activeUser = user;
+      });
   }
 
   getFiles() {

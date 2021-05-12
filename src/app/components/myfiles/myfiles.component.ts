@@ -29,9 +29,12 @@ export class MyfilesComponent implements OnInit, OnDestroy {
   }
 
   getUser() {
-    this.us.getUser$.pipe(takeUntil(this.unsub)).subscribe((user) => {
-      this.activeUser = user;
-    });
+    this.us
+      .getUser()
+      .pipe(takeUntil(this.unsub))
+      .subscribe((user) => {
+        this.activeUser = user;
+      });
   }
   getFiles() {
     this.fileService

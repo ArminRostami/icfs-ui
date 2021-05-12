@@ -11,9 +11,9 @@ export const fileTypes = {
   Application: 'application',
 };
 
-export class Ftypes {
-  static getRealType(extension: string, type: string): string {
-    switch (extension) {
+export class FileTypes {
+  static get(ext: string, type: string): string {
+    switch (ext) {
       case '7z':
       case 'arj':
       case 'deb':

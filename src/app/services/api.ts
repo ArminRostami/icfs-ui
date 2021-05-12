@@ -9,4 +9,5 @@ export const API = {
   textSearch: `${base}/contents/search`,
   upload: `${base}/contents`,
   getUserFiles: `${base}/contents/user`,
+  ipfs: `/ip4/127.0.0.1/tcp/5001`,
 };
