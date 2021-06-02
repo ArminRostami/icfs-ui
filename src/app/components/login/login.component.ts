@@ -4,6 +4,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -63,6 +64,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     if (username.valid && password.valid) {
+      console.log('API base:', environment.baseUrl);
+
       console.log(username.value);
       console.log(password.value);
       this.userService

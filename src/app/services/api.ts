@@ -1,4 +1,6 @@
-const base = 'http://127.0.0.1:8000';
+import { environment } from 'src/environments/environment';
+
+const base = environment.baseUrl;
 
 export const API = {
   users: `${base}/users`,
@@ -9,5 +11,6 @@ export const API = {
   textSearch: `${base}/contents/search`,
   upload: `${base}/contents`,
   getUserFiles: `${base}/contents/user`,
+  getCID: `${base}/contents`,
   ipfs: `/ip4/127.0.0.1/tcp/5001`,
 };

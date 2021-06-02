@@ -39,11 +39,11 @@ export class UploadComponent {
       return;
     }
     this.ipfsService.saveToIpfs(this.fileObj).subscribe((added) => {
-      console.log(added);
+      console.log('ipfs added', added);
       this.fileService
         .uploadFile(this.fileInfo, this.descText, added.cid.toString())
         .subscribe((resp) => {
-          console.log(resp);
+          console.log('fileservice added', resp);
         });
     });
   }

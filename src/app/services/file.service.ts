@@ -72,4 +72,8 @@ export class FileService {
       })
     );
   }
+
+  getCID(id: string) {
+    return this.http.get(API.getCID + `?id=${id}`, { withCredentials: true });
+  }
 }

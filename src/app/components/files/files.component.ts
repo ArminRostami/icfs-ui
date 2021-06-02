@@ -9,6 +9,7 @@ import { formatDistance } from 'date-fns';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { User } from '@icfs/types/user';
 import { takeUntil } from 'rxjs/operators';
+import { IpfsService } from '@icfs/services/ipfs.service';
 
 @Component({
   selector: 'app-files',
@@ -19,11 +20,11 @@ export class FilesComponent implements OnInit, OnDestroy {
   constructor(
     private fileService: FileService,
     private router: ActivatedRoute,
-    private modal: NzModalService
+    private modal: NzModalService,
+    private ipfsService: IpfsService
   ) {
     this.c = tableColumns;
   }
-
   @Input() activeUser = new User();
   @Input() fileStream!: Observable<Content[]>;
   @Input() editMode = false;
@@ -69,7 +70,9 @@ export class FilesComponent implements OnInit, OnDestroy {
 
   setDefaultFilter(ftype: string) {
     if (ftype === undefined) return;
-    const item = this.c.type.listOfFilter?.find((item) => item.text.toLowerCase() == ftype.toLowerCase())!;
+    const item = this.c.type.listOfFilter?.find(
+      (item) => item.text.toLowerCase() == ftype.toLowerCase()
+    )!;
     item.byDefault = true;
   }
 
@@ -123,6 +126,17 @@ export class FilesComponent implements OnInit, OnDestroy {
     }
   }
 
+  getFromIpfs(id: string) {
+    this.fileService.getCID(id).subscribe((body: any) => {
+      const cid = body['content']['cid'];
+      console.log('cid is:', cid);
+      this.ipfsService.getFromIpfs(cid).subscribe(
+        (resp) => console.log(resp),
+        (err) => console.log(err)
+      );
+    });
+  }
+
   showDownloadModal(file: Content) {
     if (this.activeUser == null) {
       return;
@@ -134,7 +148,7 @@ export class FilesComponent implements OnInit, OnDestroy {
         <p>new credit: ${this.activeUser.credit - file.size}</p>`,
       nzOnOk: () => {
         // TODO: get file from server
-        console.log(file.id);
+        this.getFromIpfs(file.id);
       },
     });
   }
@@ -145,7 +159,7 @@ export class FilesComponent implements OnInit, OnDestroy {
     }
     this.modal.confirm({
       nzTitle: `<i>Are you sure you want to delete ${file.name}?</i>`,
-      nzContent: `<p>you will lose: ${file.size} credit.</p>
+      nzContent: `<p>you will lose ${file.size} credit.</p>
       <p>current credit: ${this.activeUser.credit}</p>
       <p>new credit: ${this.activeUser.credit - file.size}</p>`,
       nzOnOk: () => {
