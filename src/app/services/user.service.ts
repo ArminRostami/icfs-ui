@@ -51,4 +51,8 @@ export class UserService {
       })
     );
   }
+
+  register(username: string, password: string, email: string): Observable<HttpResponse<any>> {
+    return this.http.post(API.register, { username, password, email }, { observe: 'response' });
+  }
 }

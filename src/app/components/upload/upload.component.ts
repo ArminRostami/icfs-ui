@@ -38,7 +38,7 @@ export class UploadComponent {
     if (!this.fileInfo.size || this.fileObj === null) {
       return;
     }
-    this.ipfsService.saveToIpfs(this.fileObj).subscribe((added) => {
+    this.ipfsService.saveToIpfs(this.fileObj).subscribe((added: any) => {
       console.log('ipfs added', added);
       this.fileService
         .uploadFile(this.fileInfo, this.descText, added.cid.toString())

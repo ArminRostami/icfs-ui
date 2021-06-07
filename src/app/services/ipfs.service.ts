@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import ipfsClient from 'ipfs-http-client';
+import { create } from 'ipfs-http-client';
 import { from } from 'rxjs';
 import { API } from './api';
 
@@ -8,7 +8,7 @@ import { API } from './api';
   providedIn: 'root',
 })
 export class IpfsService {
-  private client = ipfsClient({ url: API.ipfs });
+  private client = create({ url: API.ipfs });
 
   constructor(private http: HttpClient) {}
 
@@ -28,10 +28,17 @@ export class IpfsService {
     return from(this.client.add(fileDetails, options));
   }
 
+  // FIXME:
   getFromIpfs(cid: string) {
     // const iter = this.client.cat('/ipfs/' + cid);
     // await this.client.files.write('/home', iter);
     this.client.get(cid);
     return this.http.post(`http://localhost:5001/api/v0/get?arg=${cid}`, { observe: 'response' });
+  }
+
+  async removeFromIpfs(cid: string) {
+    const result = await this.client.pin.rm(cid);
+    this.client.repo.gc();
+    return result;
   }
 }

@@ -1,61 +1,22 @@
-<div class="center">
-  <div nz-row>
-    <div nz-col>
-      <nz-card style="width: 100%" nzTitle="Welcome to ICFS!">
-        <nz-card-tab>
-          <nz-tabset nzSize="large" [(nzSelectedIndex)]="tabIndex">
-            <nz-tab nzTitle="login"></nz-tab>
-            <nz-tab nzTitle="register"></nz-tab>
-          </nz-tabset>
-        </nz-card-tab>
-        <form
-          *ngIf="tabIndex == 0"
-          nz-form
-          [formGroup]="validateForm"
-          class="login-form"
-          (ngSubmit)="submitForm()"
-        >
-          <nz-form-item>
-            <nz-form-control nzErrorTip="Please input your username!">
-              <nz-input-group nzPrefixIcon="user">
-                <input type="text" nz-input formControlName="userName" placeholder="Username" />
-              </nz-input-group>
-            </nz-form-control>
-          </nz-form-item>
-          <nz-form-item>
-            <nz-form-control nzErrorTip="Please input your Password!">
-              <nz-input-group nzPrefixIcon="lock">
-                <input type="password" nz-input formControlName="password" placeholder="Password" />
-              </nz-input-group>
-            </nz-form-control>
-          </nz-form-item>
-          <div nz-row class="login-form-margin">
-            <div nz-col [nzSpan]="12">
-              <a class="login-form-forgot">Forgot password</a>
-            </div>
-          </div>
-          <button nz-button class="login-form-button login-form-margin" [nzType]="'primary'">Log in</button>
-        </form>
-        <!-- TODO: implement register form -->
-        <!-- Register form -->
-        <!-- <form *ngIf="tabIndex==1" nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
-          <nz-form-item>
-            <nz-form-control nzErrorTip="Please input your username!">
-              <nz-input-group nzPrefixIcon="user">
-                <input type="text" nz-input formControlName="userName" placeholder="Username" />
-              </nz-input-group>
-            </nz-form-control>
-          </nz-form-item>
-          <nz-form-item>
-            <nz-form-control nzErrorTip="Please input your Password!">
-              <nz-input-group nzPrefixIcon="lock">
-                <input type="password" nz-input formControlName="password" placeholder="Password" />
-              </nz-input-group>
-            </nz-form-control>
-          </nz-form-item>
-          <button nz-button class="login-form-button login-form-margin" [nzType]="'primary'">Register</button>
-        </form> -->
-      </nz-card>
+<form nz-form [formGroup]="loginFormGroup" class="login-form" (ngSubmit)="submitForm()">
+  <nz-form-item>
+    <nz-form-control nzErrorTip="Please input your username!">
+      <nz-input-group nzPrefixIcon="user">
+        <input type="text" nz-input formControlName="username" placeholder="Username" />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control nzErrorTip="Please input your Password!">
+      <nz-input-group nzPrefixIcon="lock">
+        <input type="password" nz-input formControlName="password" placeholder="Password" />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <div nz-row class="login-form-margin">
+    <div nz-col [nzSpan]="12">
+      <a class="login-form-forgot">Forgot password</a>
     </div>
   </div>
-</div>
+  <button nz-button class="login-form-button login-form-margin" [nzType]="'primary'">Log in</button>
+</form>

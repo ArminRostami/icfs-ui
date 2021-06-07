@@ -34,6 +34,7 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 
 // component modules
 import { FilesComponent } from './components/files/files.component';
@@ -44,6 +45,9 @@ import { HomeComponent } from './components/home/home.component';
 import { UploadComponent } from './components/upload/upload.component';
 import { ExploreComponent } from './components/explore/explore.component';
 import { MyfilesComponent } from './components/myfiles/myfiles.component';
+import { LibraryComponent } from './components/library/library.component';
+import { RegisterComponent } from './components/register/register.component';
+import { LandingComponent } from './components/landing/landing.component';
 
 registerLocaleData(en);
 
@@ -58,6 +62,9 @@ registerLocaleData(en);
     UploadComponent,
     ExploreComponent,
     MyfilesComponent,
+    LibraryComponent,
+    RegisterComponent,
+    LandingComponent,
   ],
   imports: [
     BrowserModule,
@@ -88,6 +95,7 @@ registerLocaleData(en);
     NzCollapseModule,
     NzTagModule,
     NzUploadModule,
+    NzCheckboxModule,
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent],

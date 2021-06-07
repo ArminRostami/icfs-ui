@@ -30,6 +30,7 @@ import {
   ContainerTwoTone,
   InfoCircleOutline,
   DeleteOutline,
+  FolderViewOutline,
 } from '@ant-design/icons-angular/icons';
 
 const icons = [
@@ -62,6 +63,7 @@ const icons = [
   ContainerTwoTone,
   InfoCircleOutline,
   DeleteOutline,
+  FolderViewOutline,
 ];
 
 @NgModule({

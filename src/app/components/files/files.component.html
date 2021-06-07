@@ -99,7 +99,10 @@
     <ng-container *ngFor="let file of filesTable.data">
       <tr>
         <!-- Description expand -->
-        <td [nzExpand]="expandSet.has(file.id)" (nzExpandChange)="onExpandChange(file.id, $event)"></td>
+        <td
+          [nzExpand]="expandSet.has(file.id)"
+          (nzExpandChange)="onExpandChange(file.id, $event)"
+        ></td>
         <!-- TYPE -->
         <td nzAlign="center">
           <i
@@ -135,23 +138,48 @@
       <tr [nzExpand]="expandSet.has(file.id)">
         <div style="padding: 18px" nz-row nzJustify="space-between">
           <span nz-col style="font-weight: bold">{{ file.description }}</span>
-          <button nz-button [nzType]="'primary'" (click)="showModal(file)">
-            <i
-              nz-col
-              nz-icon
-              nzType="{{ editMode ? 'delete' : 'download' }}"
-              nzTheme="outline"
-              style="font-size: 18px"
-            ></i>
-            {{ editMode ? "delete" : "download" }}
-          </button>
+          <div>
+            <button
+              *ngIf="state > 0"
+              style="margin-right: 3px"
+              nz-button
+              [nzType]="'primary'"
+              (click)="navigateToContent(file.cid)"
+            >
+              <i nz-col nz-icon nzType="folder-view" nzTheme="outline" style="font-size: 18px"></i>
+              view
+            </button>
+
+            <button
+              *ngIf="state > 0"
+              nz-button
+              [nzType]="'primary'"
+              (click)="showDeleteModal(file)"
+            >
+              <i nz-col nz-icon nzType="delete" nzTheme="outline" style="font-size: 18px"></i>
+              delete
+            </button>
+
+            <button
+              *ngIf="state == 0"
+              nz-button
+              [nzType]="'primary'"
+              (click)="showDownloadModal(file)"
+            >
+              <i nz-col nz-icon nzType="download" nzTheme="outline" style="font-size: 18px"></i>
+              add to library
+            </button>
+          </div>
         </div>
 
         <div *ngFor="let comment of file.comments">
           <nz-divider></nz-divider>
           <div nz-row nzAlign="top">
             <div nz-col>
-              <nz-comment [nzAuthor]="comment.username" [nzDatetime]="getTime(comment.comment_time)">
+              <nz-comment
+                [nzAuthor]="comment.username"
+                [nzDatetime]="getTime(comment.comment_time)"
+              >
                 <nz-avatar nz-comment-avatar nzIcon="user"></nz-avatar>
                 <nz-comment-content>
                   <p>
@@ -166,7 +194,7 @@
           </div>
         </div>
 
-        <div *ngIf="!editMode">
+        <div *ngIf="state == 1">
           <nz-divider></nz-divider>
           <h3>Write a Review:</h3>
           <nz-comment>
@@ -186,7 +214,7 @@
                     nzType="primary"
                     [nzLoading]="submitting"
                     [disabled]="commentText.length === 0 || userRating === 0"
-                    (click)="submitReview()"
+                    (click)="submitReview(file.id)"
                   >
                     Submit
                   </button>
@@ -206,7 +234,13 @@
     <div class="filter-box">
       <input type="number" nz-input placeholder="Greater than" [(ngModel)]="gtSize" />
       <input type="number" nz-input placeholder="Less than" [(ngModel)]="ltSize" />
-      <button nz-button nzSize="small" nzType="primary" (click)="filterSize()" class="filter-button">
+      <button
+        nz-button
+        nzSize="small"
+        nzType="primary"
+        (click)="filterSize()"
+        class="filter-button"
+      >
         Filter
       </button>
       <button nz-button nzSize="small" (click)="reset()">Reset</button>
@@ -219,7 +253,13 @@
     <div class="filter-box">
       <input type="number" nz-input placeholder="Greater than" [(ngModel)]="gtRate" />
       <input type="number" nz-input placeholder="Less than" [(ngModel)]="ltRate" />
-      <button nz-button nzSize="small" nzType="primary" (click)="filterRate()" class="filter-button">
+      <button
+        nz-button
+        nzSize="small"
+        nzType="primary"
+        (click)="filterRate()"
+        class="filter-button"
+      >
         Filter
       </button>
       <button nz-button nzSize="small" (click)="reset()">Reset</button>
@@ -243,8 +283,19 @@
 <nz-dropdown-menu #menuName>
   <div class="ant-table-filter-dropdown">
     <div class="search-box">
-      <input type="text" nz-input placeholder="Text search name,desc" [(ngModel)]="textSearchValue" />
-      <button nz-button nzSize="small" nzType="primary" (click)="textSearch()" class="search-button">
+      <input
+        type="text"
+        nz-input
+        placeholder="Text search name,desc"
+        [(ngModel)]="textSearchValue"
+      />
+      <button
+        nz-button
+        nzSize="small"
+        nzType="primary"
+        (click)="textSearch()"
+        class="search-button"
+      >
         Search
       </button>
       <button nz-button nzSize="small" (click)="reset()">Reset</button>

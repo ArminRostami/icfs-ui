@@ -1,0 +1,18 @@
+<div class="center">
+  <div nz-row>
+    <div nz-col>
+      <nz-card style="width: 100%" nzTitle="Welcome to ICFS!">
+        <nz-card-tab>
+          <nz-tabset nzSize="large" [(nzSelectedIndex)]="tabIndex">
+            <nz-tab nzTitle="login"></nz-tab>
+            <nz-tab nzTitle="register"></nz-tab>
+          </nz-tabset>
+        </nz-card-tab>
+        <!-- Login form -->
+        <app-login *ngIf="tabIndex === 0"></app-login>
+        <!-- Register form -->
+        <app-register *ngIf="tabIndex === 1"></app-register>
+      </nz-card>
+    </div>
+  </div>
+</div>

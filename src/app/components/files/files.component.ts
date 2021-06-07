@@ -27,7 +27,7 @@ export class FilesComponent implements OnInit, OnDestroy {
   }
   @Input() activeUser = new User();
   @Input() fileStream!: Observable<Content[]>;
-  @Input() editMode = false;
+  @Input() state = 0;
 
   fileList: Content[] = [];
   displayData: Content[] = [];
@@ -103,38 +103,37 @@ export class FilesComponent implements OnInit, OnDestroy {
     this.fileService
       .getComments(content_id)
       .pipe(takeUntil(this.unsub))
-      .subscribe((fileComments) => {
-        const idx = this.fileList.findIndex((content) => content.id == content_id);
-        if (idx == -1) {
-          return;
+      .subscribe(
+        (fileComments) => {
+          const idx = this.fileList.findIndex((content) => content.id == content_id);
+          if (idx == -1) {
+            return;
+          }
+          this.fileList[idx].comments = fileComments;
+        },
+        (_) => {
+          console.log('no comments');
+
+          const idx = this.fileList.findIndex((content) => content.id == content_id);
+          if (idx == -1) {
+            return;
+          }
+          this.fileList[idx].comments = [];
         }
-        this.fileList[idx].comments = fileComments;
-      });
+      );
   }
 
-  submitReview() {
-    // TODO: send reviews to API
+  submitReview(id: string) {
     this.submitting = true;
     console.log(this.commentText, this.userRating);
-    this.submitting = false;
-  }
-
-  showModal(file: Content) {
-    if (!this.editMode) this.showDownloadModal(file);
-    else {
-      this.showDeleteModal(file);
-    }
-  }
-
-  getFromIpfs(id: string) {
-    this.fileService.getCID(id).subscribe((body: any) => {
-      const cid = body['content']['cid'];
-      console.log('cid is:', cid);
-      this.ipfsService.getFromIpfs(cid).subscribe(
-        (resp) => console.log(resp),
-        (err) => console.log(err)
-      );
+    this.fileService.submitReview(id, this.commentText, this.userRating).subscribe((response) => {
+      console.log(response);
+      this.submitting = false;
     });
+  }
+
+  navigateToContent(cid: string) {
+    window.open(`http://127.0.0.1:5001/ipfs/${cid}`);
   }
 
   showDownloadModal(file: Content) {
@@ -147,8 +146,14 @@ export class FilesComponent implements OnInit, OnDestroy {
         <p>current credit: ${this.activeUser.credit}</p>
         <p>new credit: ${this.activeUser.credit - file.size}</p>`,
       nzOnOk: () => {
-        // TODO: get file from server
-        this.getFromIpfs(file.id);
+        this.fileService.getCID(file.id).subscribe((body: any) => {
+          const cid = body['content']['cid'];
+          console.log('cid is:', cid);
+          this.ipfsService.getFromIpfs(cid).subscribe(
+            (resp) => console.log(resp),
+            (err) => console.log(err)
+          );
+        });
       },
     });
   }
@@ -163,8 +168,19 @@ export class FilesComponent implements OnInit, OnDestroy {
       <p>current credit: ${this.activeUser.credit}</p>
       <p>new credit: ${this.activeUser.credit - file.size}</p>`,
       nzOnOk: () => {
-        // TODO: send delete to API
         console.log(file.id);
+        this.ipfsService
+          .removeFromIpfs(file.cid)
+          .then((result) => {
+            console.log(result);
+            this.fileService.removeFile(file.id).subscribe((result) => {
+              console.log(result);
+              this.displayData = this.fileList.filter((content) => content.id !== file.id);
+            });
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       },
     });
   }

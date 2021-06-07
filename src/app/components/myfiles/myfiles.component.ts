@@ -38,7 +38,7 @@ export class MyfilesComponent implements OnInit, OnDestroy {
   }
   getFiles() {
     this.fileService
-      .getUserFiles()
+      .getUploads()
       .pipe(takeUntil(this.unsub))
       .subscribe((contents) => {
         this.dataStream.next(contents);

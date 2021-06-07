@@ -1,16 +1,23 @@
 import { environment } from 'src/environments/environment';
 
 const base = environment.baseUrl;
+const contents = `${base}/contents`;
+const users = `${base}/users`;
 
 export const API = {
-  users: `${base}/users`,
-  login: `${base}/users/login`,
-  logout: `${base}/users/logout`,
-  getAllFiles: `${base}/contents/all`,
-  getComments: `${base}/contents/comment`,
-  textSearch: `${base}/contents/search`,
-  upload: `${base}/contents`,
-  getUserFiles: `${base}/contents/user`,
-  getCID: `${base}/contents`,
+  users: `${users}`,
+  login: `${users}/login`,
+  logout: `${users}/logout`,
+  register: `${users}`,
+  getAllFiles: `${contents}/all`,
+  getComments: `${contents}/comment`,
+  textSearch: `${contents}/search`,
+  upload: `${contents}`,
+  getUserUploads: `${contents}/uploads`,
+  getUserDownloads: `${contents}/downloads`,
+  deleteContent: `${contents}`,
+  getCID: `${contents}`,
+  newComment: `${contents}/comment`,
+  newRating: `${contents}/rate`,
   ipfs: `/ip4/127.0.0.1/tcp/5001`,
 };
