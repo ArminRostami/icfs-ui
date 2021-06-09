@@ -16,8 +16,9 @@ export const API = {
   getUserUploads: `${contents}/uploads`,
   getUserDownloads: `${contents}/downloads`,
   deleteContent: `${contents}`,
+  deleteDownload: `${contents}/downloads`,
   getCID: `${contents}`,
-  newComment: `${contents}/comment`,
-  newRating: `${contents}/rate`,
+  submitReview: `${contents}/review`,
   ipfs: `/ip4/127.0.0.1/tcp/5001`,
+  ipfsGateway: `http://127.0.0.1:5001/ipfs`,
 };

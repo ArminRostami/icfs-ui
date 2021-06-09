@@ -5,13 +5,18 @@ import { Icons } from '../files/icons';
 import { FileTypes } from '../files/file-types';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { IpfsService } from '@icfs/services/ipfs.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-upload',
   templateUrl: './upload.component.html',
 })
 export class UploadComponent {
-  constructor(private fileService: FileService, private ipfsService: IpfsService) {}
+  constructor(
+    private fileService: FileService,
+    private ipfsService: IpfsService,
+    private msg: NzMessageService
+  ) {}
 
   tagColor = '#1890ff';
   descText = '';
@@ -28,24 +33,38 @@ export class UploadComponent {
     this.tagColor = Icons.getIcon(this.fileInfo.extension, this.fileInfo.type).color;
 
     this.fileObj = file as any as File;
-    console.log(this.fileInfo);
-    console.log(this.fileObj);
 
     return false;
   };
 
   handleUpload() {
     if (!this.fileInfo.size || this.fileObj === null) {
+      this.msg.error('Failed to upload file.');
       return;
     }
-    this.ipfsService.saveToIpfs(this.fileObj).subscribe((added: any) => {
-      console.log('ipfs added', added);
-      this.fileService
-        .uploadFile(this.fileInfo, this.descText, added.cid.toString())
-        .subscribe((resp) => {
-          console.log('fileservice added', resp);
-        });
-    });
+    this.ipfsService.saveToIpfs(this.fileObj).subscribe(
+      (added: any) => {
+        console.log('ipfs added', added);
+        this.fileService.uploadFile(this.fileInfo, this.descText, added.cid.toString()).subscribe(
+          (resp) => {
+            console.log('fileservice added', resp);
+            this.msg.success('File added to ICFS.');
+            this.onClose();
+            return;
+          },
+          (err) => {
+            console.log(err);
+            this.msg.error('Failed to upload file.');
+            return;
+          }
+        );
+      },
+      (err) => {
+        console.log(err);
+        this.msg.error('Failed to upload file.');
+        return;
+      }
+    );
   }
 
   onClose() {

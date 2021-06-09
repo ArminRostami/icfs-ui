@@ -2,7 +2,7 @@ import { API } from './api';
 import { HttpClient } from '@angular/common/http';
 import { Content, Comment } from '@icfs/types/content';
 import { Injectable } from '@angular/core';
-import { forkJoin, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { FileData } from '@icfs/types/fileData';
 
@@ -89,19 +89,19 @@ export class FileService {
     return this.http.get(API.getCID + `?id=${id}`, { withCredentials: true });
   }
 
-  removeFile(id: string) {
+  removeUserContent(id: string) {
     return this.http.delete(`${API.deleteContent}?id=${id}`, { withCredentials: true });
   }
 
-  // FIXME:
-  submitReview(id: string, comment: string, rating: number) {
-    return forkJoin(this.submitComment(id, comment), this.submitRating(id, rating));
+  removeFromLibrary(id: string) {
+    return this.http.delete(`${API.deleteDownload}?id=${id}`, { withCredentials: true });
   }
 
-  submitComment(id: string, comment: string) {
-    return this.http.post(API.newComment, { id, comment }, { withCredentials: true });
-  }
-  submitRating(content_id: string, rating: number) {
-    return this.http.post(API.newRating, { content_id, rating }, { withCredentials: true });
+  submitReview(content_id: string, comment: string, rating: number) {
+    return this.http.post(
+      API.submitReview,
+      { content_id, comment, rating },
+      { withCredentials: true }
+    );
   }
 }

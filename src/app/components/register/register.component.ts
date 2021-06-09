@@ -55,33 +55,38 @@ export class RegisterComponent implements OnDestroy {
   }
 
   submitForm(): void {
-    const username = this.registerFormGroup.controls['username'];
-    const password = this.registerFormGroup.controls['password'];
-    const email = this.registerFormGroup.controls['email'];
-
     for (const i in this.registerFormGroup.controls) {
-      this.registerFormGroup.controls[i].markAsDirty();
-      this.registerFormGroup.controls[i].updateValueAndValidity();
+      const control = this.registerFormGroup.controls[i];
+      control.markAsDirty();
+      control.updateValueAndValidity();
+      if (!control.valid) {
+        return;
+      }
     }
 
-    if (username.valid && password.valid && email.valid) {
-      console.log(username.value);
-      console.log(password.value);
-      console.log(email.value);
-      this.userService
-        .register(username.value, password.value, email.value)
-        .pipe(takeUntil(this.unsub))
-        .subscribe(
-          (resp) => {
-            console.log(resp);
-            this.resetFields();
-            this.msg.success('Registered done.');
-          },
-          (err) => {
-            console.log(err);
-            this.msg.error('Failed to register.');
-          }
-        );
+    if (!this.registerFormGroup.controls['agree'].value) {
+      return;
     }
+
+    const username = this.registerFormGroup.controls['username'].value;
+    const password = this.registerFormGroup.controls['password'].value;
+    const email = this.registerFormGroup.controls['email'].value;
+
+    console.log(username, password, email);
+
+    this.userService
+      .register(username, password, email)
+      .pipe(takeUntil(this.unsub))
+      .subscribe(
+        (resp) => {
+          console.log(resp);
+          this.resetFields();
+          this.msg.success('Registration done.');
+        },
+        (err) => {
+          console.log(err);
+          this.msg.error('Failed to register.');
+        }
+      );
   }
 }

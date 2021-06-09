@@ -10,6 +10,8 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { User } from '@icfs/types/user';
 import { takeUntil } from 'rxjs/operators';
 import { IpfsService } from '@icfs/services/ipfs.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { API } from '@icfs/services/api';
 
 @Component({
   selector: 'app-files',
@@ -21,7 +23,8 @@ export class FilesComponent implements OnInit, OnDestroy {
     private fileService: FileService,
     private router: ActivatedRoute,
     private modal: NzModalService,
-    private ipfsService: IpfsService
+    private ipfsService: IpfsService,
+    private msg: NzMessageService
   ) {
     this.c = tableColumns;
   }
@@ -126,14 +129,24 @@ export class FilesComponent implements OnInit, OnDestroy {
   submitReview(id: string) {
     this.submitting = true;
     console.log(this.commentText, this.userRating);
-    this.fileService.submitReview(id, this.commentText, this.userRating).subscribe((response) => {
-      console.log(response);
-      this.submitting = false;
-    });
+    this.fileService.submitReview(id, this.commentText, this.userRating).subscribe(
+      (response) => {
+        console.log(response);
+        this.msg.success('Review submitted.');
+        this.getComments(id);
+        this.commentText = '';
+        this.userRating = 0;
+        this.submitting = false;
+      },
+      (err) => {
+        console.log(err);
+        this.msg.error('Failed to submit review.');
+      }
+    );
   }
 
   navigateToContent(cid: string) {
-    window.open(`http://127.0.0.1:5001/ipfs/${cid}`);
+    window.open(`${API.ipfsGateway}/${cid}`);
   }
 
   showDownloadModal(file: Content) {
@@ -149,10 +162,8 @@ export class FilesComponent implements OnInit, OnDestroy {
         this.fileService.getCID(file.id).subscribe((body: any) => {
           const cid = body['content']['cid'];
           console.log('cid is:', cid);
-          this.ipfsService.getFromIpfs(cid).subscribe(
-            (resp) => console.log(resp),
-            (err) => console.log(err)
-          );
+          const file = this.ipfsService.getFromIpfs(cid);
+          console.log(file);
         });
       },
     });
@@ -168,21 +179,46 @@ export class FilesComponent implements OnInit, OnDestroy {
       <p>current credit: ${this.activeUser.credit}</p>
       <p>new credit: ${this.activeUser.credit - file.size}</p>`,
       nzOnOk: () => {
-        console.log(file.id);
-        this.ipfsService
-          .removeFromIpfs(file.cid)
-          .then((result) => {
-            console.log(result);
-            this.fileService.removeFile(file.id).subscribe((result) => {
-              console.log(result);
-              this.displayData = this.fileList.filter((content) => content.id !== file.id);
-            });
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+        this.deleteContent(file);
       },
     });
+  }
+
+  deleteContent(file: Content) {
+    if (this.state === 1) {
+      this.fileService.removeFromLibrary(file.id).subscribe(
+        (data) => {
+          console.log(data);
+          this.msg.success('File removed from library.');
+          this.displayData = this.fileList.filter((content) => content.id !== file.id);
+        },
+        (err) => {
+          console.log(err);
+          this.msg.error('Failed to remove file.');
+        }
+      );
+    } else if (this.state === 2) {
+      this.ipfsService
+        .removeFromIpfs(file.cid)
+        .then((result) => {
+          console.log(result);
+          this.fileService.removeUserContent(file.id).subscribe(
+            (result) => {
+              console.log(result);
+              this.msg.success('File removed from uploads.');
+              this.displayData = this.fileList.filter((content) => content.id !== file.id);
+            },
+            (err) => {
+              console.log(err);
+              this.msg.error('Failed to remove file.');
+            }
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+          this.msg.error('Failed to remove file.');
+        });
+    }
   }
 
   getTime(time: Date): string {
