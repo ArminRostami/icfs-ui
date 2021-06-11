@@ -1,8 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FileService } from '@icfs/services/file.service';
-import { UserService } from '@icfs/services/user.service';
 import { Content } from '@icfs/types/content';
-import { User } from '@icfs/types/user';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -12,30 +10,19 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['./explore.component.less'],
 })
 export class ExploreComponent implements OnInit, OnDestroy {
-  constructor(private us: UserService, private fileService: FileService) {}
-
   private unsub = new Subject();
   private dataStream = new BehaviorSubject<Content[]>([]);
   dataStream$ = this.dataStream.asObservable();
-  activeUser = new User();
+
+  constructor(private fileService: FileService) {}
 
   ngOnInit(): void {
-    this.getUser();
     this.getFiles();
   }
 
   ngOnDestroy() {
     this.unsub.next();
     this.unsub.complete();
-  }
-
-  getUser() {
-    this.us
-      .getUser()
-      .pipe(takeUntil(this.unsub))
-      .subscribe((user) => {
-        this.activeUser = user;
-      });
   }
 
   getFiles() {

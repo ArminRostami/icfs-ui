@@ -9,18 +9,18 @@ import { tap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class UserService {
-  private activeUser = new BehaviorSubject<User>(new User());
+  private userStream: BehaviorSubject<User>;
+  userStream$: Observable<User>;
 
-  constructor(private http: HttpClient) {}
-
-  getUser(): Observable<User> {
-    return this.activeUser.asObservable();
+  constructor(private http: HttpClient) {
+    this.userStream = new BehaviorSubject<User>(new User());
+    this.userStream$ = this.userStream.asObservable();
   }
 
   fetchUser(): Observable<HttpResponse<User>> {
     return this.http.get<User>(API.users, { observe: 'response', withCredentials: true }).pipe(
       tap((resp) => {
-        if (resp.body != null && resp.ok) this.activeUser.next(resp.body);
+        if (resp.body != null && resp.ok) this.setActiveUser('fetch', resp.body);
       })
     );
   }
@@ -35,8 +35,7 @@ export class UserService {
       .pipe(
         tap((resp) => {
           if (resp.body != null && resp.ok) {
-            this.activeUser.next(resp.body);
-            console.log('from login: ', resp.body);
+            this.setActiveUser('login', resp.body);
           }
         })
       );
@@ -46,7 +45,7 @@ export class UserService {
     return this.http.post(API.logout, {}, { observe: 'response', withCredentials: true }).pipe(
       tap((resp) => {
         if (resp.ok) {
-          this.activeUser.next(new User());
+          this.setActiveUser('logout', new User());
         }
       })
     );
@@ -54,5 +53,10 @@ export class UserService {
 
   register(username: string, password: string, email: string): Observable<HttpResponse<any>> {
     return this.http.post(API.register, { username, password, email }, { observe: 'response' });
+  }
+
+  setActiveUser(caller: string, user: User) {
+    this.userStream.next(user);
+    console.log(`user being emitted from ${caller}: `, user);
   }
 }

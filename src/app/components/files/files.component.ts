@@ -12,6 +12,7 @@ import { takeUntil } from 'rxjs/operators';
 import { IpfsService } from '@icfs/services/ipfs.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { API } from '@icfs/services/api';
+import { UserService } from '@icfs/services/user.service';
 
 @Component({
   selector: 'app-files',
@@ -21,6 +22,7 @@ import { API } from '@icfs/services/api';
 export class FilesComponent implements OnInit, OnDestroy {
   constructor(
     private fileService: FileService,
+    private us: UserService,
     private router: ActivatedRoute,
     private modal: NzModalService,
     private ipfsService: IpfsService,
@@ -28,7 +30,7 @@ export class FilesComponent implements OnInit, OnDestroy {
   ) {
     this.c = tableColumns;
   }
-  @Input() activeUser = new User();
+  activeUser = new User();
   @Input() fileStream!: Observable<Content[]>;
   @Input() state = 0;
 
@@ -63,12 +65,19 @@ export class FilesComponent implements OnInit, OnDestroy {
   c: Cols;
 
   ngOnInit() {
+    this.getUser();
     this.fileStream.pipe(takeUntil(this.unsub)).subscribe((files) => {
       this.fileList = files;
       this.displayData = files;
       this.loading = false;
     });
     this.router.params.subscribe((params) => this.setDefaultFilter(params['filter']));
+  }
+
+  getUser() {
+    this.us.userStream$.pipe(takeUntil(this.unsub)).subscribe((user) => {
+      this.activeUser = user;
+    });
   }
 
   setDefaultFilter(ftype: string) {

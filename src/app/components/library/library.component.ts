@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FileService } from '@icfs/services/file.service';
-import { UserService } from '@icfs/services/user.service';
 import { Content } from '@icfs/types/content';
-import { User } from '@icfs/types/user';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -12,14 +10,13 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['./library.component.less'],
 })
 export class LibraryComponent implements OnInit {
-  constructor(private us: UserService, private fileService: FileService) {}
-  activeUser = new User();
-  dataStream = new BehaviorSubject<Content[]>([]);
-  dataStream$ = this.dataStream.asObservable();
   private unsub = new Subject();
+  private dataStream = new BehaviorSubject<Content[]>([]);
+  dataStream$ = this.dataStream.asObservable();
+
+  constructor(private fileService: FileService) {}
 
   ngOnInit(): void {
-    this.getUser();
     this.getFiles();
   }
 
@@ -28,14 +25,6 @@ export class LibraryComponent implements OnInit {
     this.unsub.complete();
   }
 
-  getUser() {
-    this.us
-      .getUser()
-      .pipe(takeUntil(this.unsub))
-      .subscribe((user) => {
-        this.activeUser = user;
-      });
-  }
   getFiles() {
     this.fileService
       .getDownloads()

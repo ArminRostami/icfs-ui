@@ -1,55 +1,14 @@
-import { User } from '@icfs/types/user';
 import { UserService } from '@icfs/services/user.service';
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-home',
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.less'],
 })
-export class LayoutComponent implements OnInit, OnDestroy {
+export class LayoutComponent {
   isCollapsed = false;
-  activeUser = new User();
-  private unsub = new Subject();
+  ust = this.us.userStream$;
 
-  constructor(private us: UserService, private router: Router) {}
-
-  ngOnInit() {
-    this.checkUser();
-  }
-
-  ngOnDestroy() {
-    this.unsub.next();
-    this.unsub.complete();
-  }
-
-  checkUser() {
-    this.us
-      .getUser()
-      .pipe(takeUntil(this.unsub))
-      .subscribe((user) => {
-        if (user.id !== '') {
-          this.activeUser = user;
-          console.log('layout: changed user to ', this.activeUser);
-          return;
-        }
-
-        this.us
-          .fetchUser()
-          .pipe(takeUntil(this.unsub))
-          .subscribe(
-            (resp) => {
-              if (!resp.ok) {
-                this.router.navigateByUrl('auth/login');
-              }
-            },
-            (_) => {
-              this.router.navigateByUrl('auth/login');
-            }
-          );
-      });
-  }
+  constructor(private us: UserService) {}
 }

@@ -29,13 +29,15 @@
         [nzSortDirections]="c.name.sortDirections"
       >
         {{ c.name.name }}
-        <nz-filter-trigger
-          [(nzVisible)]="textSearchVisible"
-          [nzActive]="textSearchValue.length > 0"
-          [nzDropdownMenu]="menuName"
-        >
-          <i nz-icon nzType="search"></i>
-        </nz-filter-trigger>
+        <div *ngIf="state === 0">
+          <nz-filter-trigger
+            [(nzVisible)]="textSearchVisible"
+            [nzActive]="textSearchValue.length > 0"
+            [nzDropdownMenu]="menuName"
+          >
+            <i nz-icon nzType="search"></i>
+          </nz-filter-trigger>
+        </div>
       </th>
       <!-- DATE -->
       <th

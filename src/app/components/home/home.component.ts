@@ -22,7 +22,7 @@ export class HomeComponent implements OnInit {
 
   testIPFS() {
     this.ipfsService.getVersion().subscribe((v) => {
-      console.log(v);
+      console.log('Connected to ipfs: ', v);
     });
   }
 
