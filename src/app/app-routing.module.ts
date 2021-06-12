@@ -22,8 +22,7 @@ const routes: Routes = [
       { path: 'explore/:filter', component: ExploreComponent },
     ],
   },
-  { path: 'auth/:mode', component: LandingComponent },
-  { path: 'logout', redirectTo: 'auth/logout' },
+  { path: 'login', component: LandingComponent },
   { path: '**', component: PageNotFoundComponent },
 ];
 

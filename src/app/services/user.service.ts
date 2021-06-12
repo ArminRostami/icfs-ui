@@ -3,29 +3,30 @@ import { API } from './api';
 import { User } from '@icfs/types/user';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  private userStream: BehaviorSubject<User>;
-  userStream$: Observable<User>;
+  private userStream = new BehaviorSubject<User>(new User());
+  userStream$ = this.userStream.asObservable();
 
-  constructor(private http: HttpClient) {
-    this.userStream = new BehaviorSubject<User>(new User());
-    this.userStream$ = this.userStream.asObservable();
-  }
+  constructor(private http: HttpClient) {}
 
-  fetchUser(): Observable<HttpResponse<User>> {
+  fetchUser() {
     return this.http.get<User>(API.users, { observe: 'response', withCredentials: true }).pipe(
-      tap((resp) => {
-        if (resp.body != null && resp.ok) this.setActiveUser('fetch', resp.body);
+      map((resp) => {
+        if (resp.body != null && resp.ok) {
+          this.setActiveUser('fetch', resp.body);
+          return resp.body;
+        }
+        return new User();
       })
     );
   }
 
-  login(user: string, pass: string): Observable<HttpResponse<User>> {
+  login(user: string, pass: string) {
     return this.http
       .post<User>(
         API.login,

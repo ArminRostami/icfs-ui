@@ -9,7 +9,7 @@
   >
     <div class="sidebar-logo">
       <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo" />
-      <h1>ICFS {{ (ust | async)?.username }}</h1>
+      <h1>ICFS {{ activeUser.username }}</h1>
     </div>
 
     <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
@@ -27,9 +27,8 @@
           <li nz-menu-item nzMatchRouter="true">
             <a routerLink="/library">Library</a>
           </li>
-          <!-- FIXME: change the way logout works -->
-          <li nz-menu-item nzMatchRouter="true">
-            <a routerLink="/auth/logout">Logout</a>
+          <li nz-menu-item>
+            <a (click)="logout()">Logout</a>
           </li>
         </ul>
       </li>

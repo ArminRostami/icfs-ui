@@ -1,14 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-landing',
   templateUrl: './landing.component.html',
   styleUrls: ['./landing.component.less'],
 })
-export class LandingComponent implements OnInit {
+export class LandingComponent {
   tabIndex = 0;
 
   constructor() {}
-
-  ngOnInit(): void {}
 }

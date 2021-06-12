@@ -1,6 +1,6 @@
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { UserService } from '@icfs/services/user.service';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -11,7 +11,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.less'],
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent implements OnDestroy {
   loginFormGroup: FormGroup;
   private unsub = new Subject();
 
@@ -19,7 +19,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private userService: UserService,
     private router: Router,
-    private route: ActivatedRoute,
     private msg: NzMessageService
   ) {
     this.loginFormGroup = this.fb.group({
@@ -29,32 +28,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnInit() {
-    this.checkMode();
-  }
-
   ngOnDestroy() {
     this.unsub.next();
     this.unsub.complete();
-  }
-
-  checkMode() {
-    this.route.params.subscribe((params) => {
-      if (params['mode'] == 'logout') {
-        this.userService
-          .logout()
-          .pipe(takeUntil(this.unsub))
-          .subscribe(
-            (resp) => {
-              console.log(resp.body);
-              this.msg.success('Logout successful.');
-            },
-            (_) => {
-              this.msg.error('Logout failed.');
-            }
-          );
-      }
-    });
   }
 
   submitForm(): void {
@@ -67,8 +43,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     if (username.valid && password.valid) {
-      console.log(username.value);
-      console.log(password.value);
       this.userService
         .login(username.value, password.value)
         .pipe(takeUntil(this.unsub))
