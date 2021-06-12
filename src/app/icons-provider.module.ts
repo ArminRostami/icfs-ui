@@ -31,6 +31,8 @@ import {
   InfoCircleOutline,
   DeleteOutline,
   FolderViewOutline,
+  AppstoreOutline,
+  SettingOutline,
 } from '@ant-design/icons-angular/icons';
 
 const icons = [
@@ -48,7 +50,6 @@ const icons = [
   StarTwoTone,
   DownSquareTwoTone,
   DownloadOutline,
-  // file type icons
   AudioTwoTone,
   VideoCameraTwoTone,
   FilePdfTwoTone,
@@ -64,6 +65,8 @@ const icons = [
   InfoCircleOutline,
   DeleteOutline,
   FolderViewOutline,
+  AppstoreOutline,
+  SettingOutline,
 ];
 
 @NgModule({

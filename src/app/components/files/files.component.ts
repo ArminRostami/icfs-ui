@@ -173,6 +173,12 @@ export class FilesComponent implements OnInit, OnDestroy {
           console.log('cid is:', cid);
           const file = this.ipfsService.getFromIpfs(cid);
           console.log(file);
+          this.us
+            .fetchUser()
+            .pipe(takeUntil(this.unsub))
+            .subscribe((resp) => {
+              console.log(resp);
+            });
         });
       },
     });
@@ -184,11 +190,20 @@ export class FilesComponent implements OnInit, OnDestroy {
     }
     this.modal.confirm({
       nzTitle: `<i>Are you sure you want to delete ${file.name}?</i>`,
-      nzContent: `<p>you will lose ${file.size} credit.</p>
+      nzContent:
+        this.state === 2
+          ? `<p>you will lose ${file.size} credit.</p>
       <p>current credit: ${this.activeUser.credit}</p>
-      <p>new credit: ${this.activeUser.credit - file.size}</p>`,
+      <p>new credit: ${this.activeUser.credit - file.size}</p>`
+          : '',
       nzOnOk: () => {
         this.deleteContent(file);
+        this.us
+          .fetchUser()
+          .pipe(takeUntil(this.unsub))
+          .subscribe((resp) => {
+            console.log(resp);
+          });
       },
     });
   }

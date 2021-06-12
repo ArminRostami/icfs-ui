@@ -9,15 +9,32 @@
   >
     <div class="sidebar-logo">
       <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo" />
-      <h1>ICFS {{ activeUser.username }}</h1>
+      <h1>ICFS</h1>
     </div>
 
-    <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+    <ul
+      nz-menu
+      [nzSelectable]="false"
+      nzTheme="dark"
+      nzMode="inline"
+      [nzInlineCollapsed]="isCollapsed"
+    >
+      <li nz-submenu nzOpen nzTitle="{{ activeUser.username }}" nzIcon="user">
+        <ul>
+          <li [nzDanger]="true" nz-menu-item>credit: {{ activeUser.credit }}</li>
+        </ul>
+      </li>
+
       <li nz-submenu nzOpen nzTitle="Dashboard" nzIcon="dashboard">
         <ul>
           <li nz-menu-item nzMatchRouter="true">
             <a routerLink="/home">Home</a>
           </li>
+        </ul>
+      </li>
+
+      <li nz-submenu nzOpen nzTitle="Access files" nzIcon="appstore">
+        <ul>
           <li nz-menu-item nzMatchRouter="true">
             <a routerLink="/explore">Explore</a>
           </li>
@@ -27,6 +44,11 @@
           <li nz-menu-item nzMatchRouter="true">
             <a routerLink="/library">Library</a>
           </li>
+        </ul>
+      </li>
+
+      <li nz-submenu nzOpen nzTitle="Actions" nzIcon="setting">
+        <ul>
           <li nz-menu-item>
             <a (click)="logout()">Logout</a>
           </li>
