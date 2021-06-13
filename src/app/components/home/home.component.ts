@@ -10,6 +10,7 @@ import { IpfsService } from '@icfs/services/ipfs.service';
   styleUrls: ['./home.component.less'],
 })
 export class HomeComponent implements OnInit {
+  idx = 0;
   types: NzTableFilterList;
 
   constructor(private ipfsService: IpfsService) {

@@ -1,8 +1,15 @@
-<div>
-  <div nz-row nzJustify="space-around">
-    <!-- Explore card -->
-    <div nz-col>
-      <nz-card style="width: 300px">
+<div nz-row [nzGutter]="8" nzJustify="space-around">
+  <div nz-col [nzSpan]="8">
+    <nz-card style="width: 100%">
+      <nz-card-tab>
+        <nz-tabset nzSize="large" [(nzSelectedIndex)]="idx">
+          <nz-tab nzTitle="Explore"></nz-tab>
+          <nz-tab nzTitle="Library"></nz-tab>
+          <nz-tab nzTitle="Uploads"></nz-tab>
+        </nz-tabset>
+      </nz-card-tab>
+      <!-- Explore card -->
+      <div *ngIf="idx === 0">
         <nz-card-meta
           nzTitle="Explore"
           nzDescription="Explore the files uploaded by the community."
@@ -29,36 +36,50 @@
             ></i>
           </a>
         </ng-container>
-      </nz-card>
-      <ng-template #avatarTemplate>
-        <i nz-icon nzType="appstore" nzTheme="twotone" style="font-size: 24px" nzTwotoneColor="#52c41a"></i>
-      </ng-template>
-    </div>
-
-    <!-- Upload card -->
-    <div nz-col>
-      <app-upload></app-upload>
-    </div>
-
-    <!-- myFiles card -->
-    <div nz-col>
-      <nz-card style="width: 300px">
+      </div>
+      <!-- Library -->
+      <div *ngIf="idx === 1">
         <nz-card-meta
-          nzTitle="My Files"
-          nzDescription="Review and modify your files."
+          nzTitle="Library"
+          nzDescription="Files you get from ICFS are shown here. you can view, delete or review them."
           [nzAvatar]="avatarTemplate2"
         >
         </nz-card-meta>
-      </nz-card>
-      <ng-template #avatarTemplate2>
-        <i
-          nz-icon
-          nzType="folder-open"
-          nzTheme="twotone"
-          style="font-size: 24px"
-          nzTwotoneColor="#eb2f96"
-        ></i>
-      </ng-template>
-    </div>
+      </div>
+      <!-- Uploads -->
+      <div *ngIf="idx === 2">
+        <nz-card-meta
+          nzTitle="Uploads"
+          nzDescription="Files you upload to ICFS are shown here. you can view and delete them."
+          [nzAvatar]="avatarTemplate2"
+        >
+        </nz-card-meta>
+      </div>
+    </nz-card>
+  </div>
+
+  <!-- Upload card -->
+  <div nz-col [nzSpan]="8">
+    <app-upload></app-upload>
   </div>
 </div>
+
+<ng-template #avatarTemplate>
+  <i
+    nz-icon
+    nzType="appstore"
+    nzTheme="twotone"
+    style="font-size: 24px"
+    nzTwotoneColor="#52c41a"
+  ></i>
+</ng-template>
+
+<ng-template #avatarTemplate2>
+  <i
+    nz-icon
+    nzType="folder-open"
+    nzTheme="twotone"
+    style="font-size: 24px"
+    nzTwotoneColor="#eb2f96"
+  ></i>
+</ng-template>
