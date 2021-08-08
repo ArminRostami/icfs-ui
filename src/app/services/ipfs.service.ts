@@ -22,7 +22,7 @@ export class IpfsService {
     };
     const options = {
       wrapWithDirectory: false,
-      progress: (prog: any) => console.log(`received: ${prog}`),
+      // progress: (prog: any) => console.log(`received: ${prog}`),
     };
     return from(this.ipfs.add(fileDetails, options));
   }
